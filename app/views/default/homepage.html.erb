@@ -1,33 +1,11 @@
 <section class="checklist">
-  <div class="row">
-    <div class="col-xs-12 checkbox">
-      <label class="checkbox-inline">
-        <input type="checkbox" /> Sprawdź na każdej z przeglądarek
-      </label>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12 checkbox">
-      <label class="checkbox-inline">
-        <input type="checkbox" /> Sprawdź na każdym dostepnym systemie
-      </label>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12 checkbox">
-      <label class="checkbox-inline">
-        <input type="checkbox" /> Zobacz jeszcze w innym, każdym, możliwym miejscu
-      </label>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12 checkbox">
-      <label class="checkbox-inline">
-        <input type="checkbox" /> I tam, gdzie nie pomyślałeś, by jeszcze sprawdzić
-      </label>
-    </div>
-  </div>
+  <% @items.each do |item| %>
+      <div class="row">
+        <div class="col-xs-12 checkbox">
+          <label class="checkbox-inline">
+            <input type="checkbox" /> <%= item.description %>
+          </label>
+        </div>
+      </div>
+  <% end %>
 </section>
