@@ -2,7 +2,9 @@
     <div class="row"  ng-repeat="item in items">
         <div class="col-xs-12 checkbox">
             <label class="checkbox-inline">
-                <input type="checkbox" ng-click="itemCompleted($event)" /> {{ item.description }}
+                <input type="checkbox"
+                       ng-click="itemCompleted($event, item.id)"
+                       ng-checked="{{ item.completed_at != null }}" /> {{ item.description }}
             </label>
         </div>
     </div>

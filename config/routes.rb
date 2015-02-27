@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :items, only: [:index]
+  get 'items' => 'items#index'
+  post 'items/:id/complete' => 'items#complete'
+  post 'items/:id/uncomplete' => 'items#uncomplete'
 
   root 'default#homepage'
 
