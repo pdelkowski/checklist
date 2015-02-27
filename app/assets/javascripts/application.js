@@ -14,11 +14,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-var checklistApp = angular.module('checklistApp', []);
-
-checklistApp.controller('ItemsListCtrl', function ($scope, $http) {
-    $http.get('/items.json').success(function(data) {
-        $scope.items = data;
-    });
-});
