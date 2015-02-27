@@ -17,13 +17,8 @@
 
 var checklistApp = angular.module('checklistApp', []);
 
-checklistApp.controller('ItemsListCtrl', function ($scope) {
-    $scope.items = [
-        { 'description': 'Pierwszy element listy' },
-        { 'description': 'Drugi element listy' },
-        { 'description': 'Trzeci element list' },
-        { 'description': 'Czwarty element list' },
-        { 'description': 'Piąty element list' },
-        { 'description': 'Szósty element list' }
-    ];
+checklistApp.controller('ItemsListCtrl', function ($scope, $http) {
+    $http.get('/items.json').success(function(data) {
+        $scope.items = data;
+    });
 });
