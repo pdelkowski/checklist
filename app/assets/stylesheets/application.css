@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+
+.row div {
+    /*border: 1px solid red;*/
+}
+
+#main-header {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 30px;
+}
+
+.checklist .row {
+    margin-bottom: 20px;
+}
