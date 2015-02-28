@@ -50,4 +50,19 @@ describe "Update checklist", type: :request do
       expect(json['errors']).to eq(expected_errors)
     end
   end
+
+  context "with too long name" do
+    it "returns validation error" do
+      put path, { name: 'This is checklist name' * 20 }
+
+      expect(response).to have_http_status(422)
+      expect(response).to match_response_schema('error')
+
+      expect(json['error_code']).to eq('validation_failed')
+      expected_errors = {
+          'name' => ['too_long']
+      }
+      expect(json['errors']).to eq(expected_errors)
+    end
+  end
 end
