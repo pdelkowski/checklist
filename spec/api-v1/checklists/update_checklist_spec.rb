@@ -24,4 +24,30 @@ describe "Updating checklist", type: :request do
       expect(json['error_code']).to eq('resource_not_found')
     end
   end
+
+  context "when name is empty" do
+    it "returns validation error" do
+      put path, { name: '' }
+
+      expect(response).to have_http_status(422)
+      expect(response).to match_response_schema('error')
+      expect(json['error_code']).to eq('validation_failed')
+
+      expected_errors = { 'name' => ['required', 'too_short'] }
+      expect(json['errors']).to eq(expected_errors)
+    end
+  end
+
+  context "when name is too short" do
+    it "returns validation error" do
+      put path, { name: 'a' }
+
+      expect(response).to have_http_status(422)
+      expect(response).to match_response_schema('error')
+      expect(json['error_code']).to eq('validation_failed')
+
+      expected_errors = { 'name' => ['too_short'] }
+      expect(json['errors']).to eq(expected_errors)
+    end
+  end
 end

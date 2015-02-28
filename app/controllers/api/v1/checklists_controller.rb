@@ -17,6 +17,9 @@ class Api::V1::ChecklistsController < ApplicationController
     end
   end
 
+  def destroy
+  end
+
   private
 
   def checklist_params
