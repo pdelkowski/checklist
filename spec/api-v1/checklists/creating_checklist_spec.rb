@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "Creating the checklist", type: :request do
   let(:path) { '/api/v1/checklists' }
 
-  context "with valid data set" do
+  context "with valid data" do
     it "returns newly created checklist resource" do
       data = { name: 'My checklist' }
       post path, data
