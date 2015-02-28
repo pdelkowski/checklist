@@ -1,8 +1,11 @@
 class Api::V1::ChecklistsController < ApplicationController
-  before_action :set_checklist, only: [:update, :destroy]
+  before_action :set_checklist, only: [:show, :update, :destroy]
 
   def index
     @checklists = Checklist.all
+  end
+
+  def show
   end
 
   def create
