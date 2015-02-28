@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Updating checklist", type: :request do
+describe "Update checklist", type: :request do
   let(:checklist) { FactoryGirl.create(:checklist) }
   let(:path) { "/api/v1/checklists/#{checklist.id}" }
 

@@ -1,4 +1,6 @@
 class Api::V1::ChecklistsController < ApplicationController
+  before_action :set_checklist, only: [:update, :destroy]
+
   def create
     @checklist = Checklist.new(checklist_params)
     if @checklist.valid? && @checklist.save
@@ -9,7 +11,6 @@ class Api::V1::ChecklistsController < ApplicationController
   end
 
   def update
-    @checklist = Checklist.find(params[:id])
     if @checklist.update(checklist_params)
       render :show
     else
@@ -18,9 +19,15 @@ class Api::V1::ChecklistsController < ApplicationController
   end
 
   def destroy
+    @checklist.destroy
+    render :show
   end
 
   private
+
+  def set_checklist
+    @checklist = Checklist.find(params[:id])
+  end
 
   def checklist_params
     params.permit(:name)
