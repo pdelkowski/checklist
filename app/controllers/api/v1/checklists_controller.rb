@@ -1,7 +1,7 @@
 class Api::V1::ChecklistsController < ApplicationController
   def create
     @checklist = Checklist.new(new_checklist_params)
-    if @checklist.valid?
+    if @checklist.valid? && @checklist.save
       render :show
     else
       render json: validation_error(@checklist.errors), status: 422

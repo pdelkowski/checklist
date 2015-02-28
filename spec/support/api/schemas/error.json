@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "status_code": {
+      "type": "number",
+      "enum": [200, 422]
+    },
+    "error_code":  {
+      "type": "string",
+      "enum": ["resource_not_found", "validation_failed"]
+    },
+    "message":     { "type": "string" },
+    "errors":      { "type": "object" }
+  },
+  "required": ["status_code", "error_code", "message"]
+}
