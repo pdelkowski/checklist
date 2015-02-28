@@ -1,0 +1,1 @@
+json.extract! @checklist, :id, :name, :completed_at, :created_at, :updated_at

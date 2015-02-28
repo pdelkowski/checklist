@@ -7,12 +7,21 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def not_found
-    json = {
-      'status_code' => 404,
-      'error_code' => 'resource_not_found'
-    }
+    def not_found
+      json = {
+          'status_code' => 404,
+          'error_code' => 'resource_not_found'
+      }
 
-    render json: json, status: 404
-  end
+      render json: json, status: 404
+    end
+
+    def validation_error(errors)
+      {
+          status_code: 422,
+          error_code: "validation_failed",
+          message: "There are some validation errors. Check errors object.",
+          errors: errors
+      }
+    end
 end

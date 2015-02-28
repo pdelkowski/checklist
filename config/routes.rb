@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  namespace :api do
+  namespace :v1 do
+    get 'checklists/index'
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :checklists
+    end
+  end
+
+
   get 'items' => 'items#index'
   post 'items/:id/complete' => 'items#complete'
   post 'items/:id/uncomplete' => 'items#uncomplete'
