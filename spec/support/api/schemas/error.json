@@ -3,7 +3,7 @@
   "properties": {
     "status_code": {
       "type": "number",
-      "enum": [200, 422]
+      "enum": [200, 404, 422]
     },
     "error_code":  {
       "type": "string",
