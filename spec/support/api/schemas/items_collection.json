@@ -4,7 +4,8 @@
     "type": "object",
     "properties": {
       "id": { "type": "integer" },
-      "description": { "type": "string" }
+      "description": { "type": "string" },
+      "completed_at": { "type": ["string", "null"], "format": "date-time" }
     },
     "required": ["id", "description"]
   },

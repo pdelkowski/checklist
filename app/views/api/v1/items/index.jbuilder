@@ -1,1 +1,1 @@
-json.array! @items, :id, :description
+json.array! @items, :id, :description, :completed_at
