@@ -6,6 +6,7 @@ class ItemsController < ApplicationController
   end
 
   def complete
+
     @item.completed_at = Time.now
     @item.save
 

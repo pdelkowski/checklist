@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
   namespace :api do
-  namespace :v1 do
-    get 'checklists/index'
-    end
-  end
-
-  namespace :api do
     namespace :v1 do
 
       resources :checklists do
@@ -15,16 +9,12 @@ Rails.application.routes.draw do
       resources :items, only: [:update, :destroy] do
         member do
           post 'complete'
+          post 'uncomplete'
         end
       end
 
     end
   end
-
-
-  get 'items' => 'items#index'
-  post 'items/:id/complete' => 'items#complete'
-  post 'items/:id/uncomplete' => 'items#uncomplete'
 
   root 'default#homepage'
 

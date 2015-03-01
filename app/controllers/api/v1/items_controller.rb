@@ -32,6 +32,14 @@ class Api::V1::ItemsController < ApplicationController
     render :show
   end
 
+  def uncomplete
+    if @item.completed?
+      @item.completed_at = nil
+      @item.save
+    end
+    render :show
+  end
+
   def destroy
     @item.destroy
     render :show
