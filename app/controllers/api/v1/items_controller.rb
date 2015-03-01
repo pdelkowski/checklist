@@ -15,6 +15,15 @@ class Api::V1::ItemsController < ApplicationController
     end
   end
 
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      render :show
+    else
+      render json: validation_error(@item.errors), status: 422
+    end
+  end
+
   private
 
     def item_params

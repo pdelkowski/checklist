@@ -9,8 +9,10 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :checklists do
-        resources :items
+        resources :items, only: [:index, :create]
       end
+
+      resources :items, only: [:update]
 
     end
   end
