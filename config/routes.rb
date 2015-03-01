@@ -12,7 +12,11 @@ Rails.application.routes.draw do
         resources :items, only: [:index, :create]
       end
 
-      resources :items, only: [:update, :destroy]
+      resources :items, only: [:update, :destroy] do
+        member do
+          post 'complete'
+        end
+      end
 
     end
   end

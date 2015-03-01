@@ -1,6 +1,6 @@
 class Api::V1::ItemsController < ApplicationController
   before_action :set_checklist, only: [:index, :create]
-  before_action :set_item, only: [:update, :destroy]
+  before_action :set_item, only: [:update, :destroy, :complete, :uncomplete]
 
   def index
     @items = Item.where(checklist: @checklist)
@@ -22,6 +22,14 @@ class Api::V1::ItemsController < ApplicationController
     else
       render json: validation_error(@item.errors), status: 422
     end
+  end
+
+  def complete
+    unless @item.completed?
+      @item.completed_at = Time.now
+      @item.save
+    end
+    render :show
   end
 
   def destroy
