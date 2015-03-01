@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         resources :items, only: [:index, :create]
       end
 
-      resources :items, only: [:update]
+      resources :items, only: [:update, :destroy]
 
     end
   end

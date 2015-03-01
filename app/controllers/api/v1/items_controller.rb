@@ -1,5 +1,6 @@
 class Api::V1::ItemsController < ApplicationController
   before_action :set_checklist, only: [:index, :create]
+  before_action :set_item, only: [:update, :destroy]
 
   def index
     @items = Item.where(checklist: @checklist)
@@ -16,12 +17,16 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       render :show
     else
       render json: validation_error(@item.errors), status: 422
     end
+  end
+
+  def destroy
+    @item.destroy
+    render :show
   end
 
   private
@@ -32,5 +37,9 @@ class Api::V1::ItemsController < ApplicationController
 
     def set_checklist
       @checklist = Checklist.find(params[:checklist_id])
+    end
+
+    def set_item
+      @item = Item.find(params[:id])
     end
 end
