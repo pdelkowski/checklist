@@ -3,7 +3,7 @@ class Api::V1::ItemsController < ApplicationController
   before_action :set_item, only: [:update, :destroy, :complete, :uncomplete]
 
   def index
-    @items = Item.where(checklist: @checklist)
+    @items = Item.where(checklist: @checklist).order(created_at: 'DESC')
   end
 
   def create

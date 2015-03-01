@@ -2,7 +2,7 @@ class Api::V1::ChecklistsController < ApplicationController
   before_action :set_checklist, only: [:show, :update, :destroy]
 
   def index
-    @checklists = Checklist.all
+    @checklists = Checklist.order(created_at: 'DESC')
   end
 
   def show
