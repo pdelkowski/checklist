@@ -16,20 +16,4 @@ class ApplicationController < ActionController::Base
     def resource_not_found
       render_error(Error::ResourceNotFound.new)
     end
-
-
-
-
-    def json_error(status, code, message, errors={})
-      {
-          status_code: status,
-          message: message,
-          error_code: code,
-          errors: errors
-      }
-    end
-
-    def validation_error(errors)
-      json_error 422, 'validation_failed', 'There are some validation errors. Check errors object.', errors
-    end
 end

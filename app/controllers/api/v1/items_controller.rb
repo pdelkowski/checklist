@@ -7,21 +7,17 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
-    @item.checklist = @checklist
-    if @item.valid? && @item.save
-      render :show, status: 201
-    else
-      render json: validation_error(@item.errors), status: 422
-    end
+    form = ItemForm.new(item_params)
+    @item = CreateItem.call(form)
+
+    render :show, status: 201
   end
 
   def update
-    if @item.update(item_params)
-      render :show
-    else
-      render json: validation_error(@item.errors), status: 422
-    end
+    form = ItemForm.new(item_params)
+    @item = UpdateItem.call(@item, form)
+
+    render :show
   end
 
   def complete
@@ -41,7 +37,8 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def destroy
-    @item.destroy
+    DeleteItem.call(@item)
+
     render :show
   end
 
