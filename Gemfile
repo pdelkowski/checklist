@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.0'
 gem 'rails-api'
 
+gem 'apipie-rails'
+
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'

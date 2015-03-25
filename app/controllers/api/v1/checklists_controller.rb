@@ -1,16 +1,20 @@
 class Api::V1::ChecklistsController < ApplicationController
+
   before_action :set_checklist, only: [:show, :update, :destroy]
 
+  api!
   def index
     @checklists = Checklist.order(created_at: 'DESC')
 
     render :index
   end
 
+  api!
   def show
     render :show
   end
 
+  api!
   def create
     form = ChecklistForm.new(checklist_params)
     @checklist = CreateChecklist.call(form)
@@ -18,6 +22,7 @@ class Api::V1::ChecklistsController < ApplicationController
     render :show
   end
 
+  api!
   def update
     form = ChecklistForm.new(checklist_params)
     @checklist = UpdateChecklist.call(@checklist, form)
@@ -25,6 +30,7 @@ class Api::V1::ChecklistsController < ApplicationController
     render :show
   end
 
+  api!
   def destroy
     DeleteChecklist.new(@checklist)
 
