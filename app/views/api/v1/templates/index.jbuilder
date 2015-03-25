@@ -1,0 +1,1 @@
+json.array! @templates, :id, :name, :created_at, :updated_at
