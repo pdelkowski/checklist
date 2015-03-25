@@ -3,9 +3,22 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from Error, with: :render_error
+  rescue_from ActiveRecord::RecordNotFound, with: :resource_not_found
 
   private
+
+    # @param e Error
+    def render_error(e)
+      render 'api/v1/error', status: e.http_status, locals: { error: e }
+    end
+
+    def resource_not_found
+      render_error(Error::ResourceNotFound.new)
+    end
+
+
+
 
     def json_error(status, code, message, errors={})
       {
@@ -14,11 +27,6 @@ class ApplicationController < ActionController::Base
           error_code: code,
           errors: errors
       }
-    end
-
-    def not_found
-      json = json_error 404, 'resource_not_found', 'Resource not found'
-      render json: json, status: 404
     end
 
     def validation_error(errors)

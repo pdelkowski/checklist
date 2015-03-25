@@ -10,7 +10,7 @@
       "enum": ["resource_not_found", "validation_failed"]
     },
     "message":     { "type": "string" },
-    "errors":      { "type": "object" }
+    "errors":      { "type": ["object", "null"] }
   },
   "required": ["status_code", "error_code", "message"]
 }
