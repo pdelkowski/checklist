@@ -4,6 +4,8 @@ class Api::V1::ItemsController < ApplicationController
 
   def index
     @items = Item.where(checklist: @checklist).order(created_at: 'DESC')
+
+    render :index
   end
 
   def create

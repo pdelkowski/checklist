@@ -3,9 +3,12 @@ class Api::V1::ChecklistsController < ApplicationController
 
   def index
     @checklists = Checklist.order(created_at: 'DESC')
+
+    render :index
   end
 
   def show
+    render :show
   end
 
   def create

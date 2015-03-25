@@ -1,8 +1,4 @@
-class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session
-
+class ApplicationController < ActionController::API
   rescue_from Error, with: :render_error
   rescue_from ActiveRecord::RecordNotFound, with: :resource_not_found
 

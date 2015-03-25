@@ -3,9 +3,12 @@ class Api::V1::TemplatesController < ApplicationController
 
   def index
     @templates = Template.all
+
+    render :index
   end
 
   def show
+    render :show
   end
 
   def create
