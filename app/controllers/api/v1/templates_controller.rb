@@ -6,4 +6,11 @@ class Api::V1::TemplatesController < ApplicationController
   def show
     @template = Template.find(params[:id])
   end
+
+  def create
+    form = TemplateForm.new(params)
+    @template = CreateTemplate.call(form)
+
+    render :show, status: 201
+  end
 end
