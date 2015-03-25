@@ -1,5 +1,5 @@
 class Api::V1::TemplatesController < ApplicationController
-  before_action :set_template, only: [:show, :update]
+  before_action :set_template, only: [:show, :update, :destroy]
 
   def index
     @templates = Template.all
@@ -19,6 +19,10 @@ class Api::V1::TemplatesController < ApplicationController
     form = TemplateForm.new(params)
     @template = UpdateTemplate.call(@template, form)
 
+    render :show
+  end
+
+  def destroy
     render :show
   end
 
