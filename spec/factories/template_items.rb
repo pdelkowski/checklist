@@ -1,7 +1,7 @@
 FactoryGirl.define do
-  factory :template_item do
+  factory :checklist_item do
     name { Faker::Lorem.sentence }
-    association :template
+    association :checklist
   end
 
 end

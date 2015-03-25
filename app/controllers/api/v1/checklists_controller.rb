@@ -9,24 +9,22 @@ class Api::V1::ChecklistsController < ApplicationController
   end
 
   def create
-    @checklist = Checklist.new(checklist_params)
-    if @checklist.valid? && @checklist.save
-      render :show
-    else
-      render json: validation_error(@checklist.errors), status: 422
-    end
+    form = ChecklistForm.new(checklist_params)
+    @checklist = CreateChecklist.call(form)
+
+    render :show
   end
 
   def update
-    if @checklist.update(checklist_params)
-      render :show
-    else
-      render json: validation_error(@checklist.errors), status: 422
-    end
+    form = ChecklistForm.new(checklist_params)
+    @checklist = UpdateChecklist.call(@checklist, form)
+
+    render :show
   end
 
   def destroy
-    @checklist.destroy
+    DeleteChecklist.new(@checklist)
+
     render :show
   end
 
