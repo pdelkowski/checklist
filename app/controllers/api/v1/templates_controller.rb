@@ -1,10 +1,11 @@
 class Api::V1::TemplatesController < ApplicationController
+  before_action :set_template, only: [:show, :update]
+
   def index
     @templates = Template.all
   end
 
   def show
-    @template = Template.find(params[:id])
   end
 
   def create
@@ -13,4 +14,17 @@ class Api::V1::TemplatesController < ApplicationController
 
     render :show, status: 201
   end
+
+  def update
+    form = TemplateForm.new(params)
+    @template = UpdateTemplate.call(@template, form)
+
+    render :show
+  end
+
+  private
+
+    def set_template
+      @template = Template.find(params[:id])
+    end
 end
