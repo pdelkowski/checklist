@@ -26,7 +26,7 @@ module Api::V1::ItemsController::Documentation
   
     api :PUT, '/v1/items/:id', 'Update checklist item'
     error 404, 'resource_not_found - when checklist item specified by :id is not found'
-    param :name, String, desc: 'Name of checklist item', required: true,
+    param :name, String, desc: 'Name of checklist item',
       meta: { length: '>= 2 AND <= 100 characters' }
     def update
     end
