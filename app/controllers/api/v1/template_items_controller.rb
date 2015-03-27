@@ -1,4 +1,6 @@
-class Api::V1::TemplateItemsController < ApplicationController  
+class Api::V1::TemplateItemsController < ApplicationController
+  include Documentation
+    
   before_action :set_template
 
   def index

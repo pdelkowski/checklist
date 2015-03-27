@@ -1,19 +1,18 @@
 class Api::V1::TemplatesController < ApplicationController
+  include Documentation
+  
   before_action :set_template, only: [:show, :update, :destroy]
 
-  api!
   def index
     @templates = Template.all
 
     render :index
   end
 
-  api!
   def show
     render :show
   end
 
-  api!
   def create
     form = TemplateForm.new(params)
     @template = CreateTemplate.call(form)
@@ -21,7 +20,6 @@ class Api::V1::TemplatesController < ApplicationController
     render :show, status: 201
   end
 
-  api!
   def update
     form = TemplateForm.new(params)
     @template = UpdateTemplate.call(@template, form)
@@ -29,7 +27,6 @@ class Api::V1::TemplatesController < ApplicationController
     render :show
   end
 
-  api!
   def destroy
     render :show
   end
