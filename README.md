@@ -5,6 +5,11 @@ Checklists App allows you to create multiple checklists to control your repetead
 
 If any of actions are repetable you can create template for that to save time next time you'll want to compose checklist.
 
+
+## API Documentation
+
+API Documentation is available at `URI/api/docs` where `URI` is valid address to running application.
+
 ## Contributing
 
 ### Prerequsites
