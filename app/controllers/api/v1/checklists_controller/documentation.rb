@@ -3,7 +3,6 @@ module Api::V1::ChecklistsController::Documentation
   
   included do
     resource_description do
-      short 'Checklists are the lists of repeatable action points you can create and mark as complete'
       formats ['json']
       api_version 'v1'
     end

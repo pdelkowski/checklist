@@ -1,15 +1,15 @@
 class Api::V1::ItemsController < ApplicationController
+  include Documentation
+  
   before_action :set_checklist, only: [:index, :create]
   before_action :set_item, only: [:update, :destroy, :complete, :uncomplete]
 
-  api!
   def index
     @items = Item.where(checklist: @checklist).order(created_at: 'DESC')
 
     render :index
   end
 
-  api!
   def create
     form = ItemForm.new(item_params)
     @item = CreateItem.call(form)
@@ -17,7 +17,6 @@ class Api::V1::ItemsController < ApplicationController
     render :show, status: 201
   end
 
-  api!
   def update
     form = ItemForm.new(item_params)
     @item = UpdateItem.call(@item, form)
@@ -25,7 +24,6 @@ class Api::V1::ItemsController < ApplicationController
     render :show
   end
 
-  api!
   def complete
     unless @item.completed?
       @item.completed_at = Time.now
@@ -34,7 +32,6 @@ class Api::V1::ItemsController < ApplicationController
     render :show
   end
 
-  api!
   def uncomplete
     if @item.completed?
       @item.completed_at = nil
@@ -43,7 +40,6 @@ class Api::V1::ItemsController < ApplicationController
     render :show
   end
 
-  api!
   def destroy
     DeleteItem.call(@item)
 
