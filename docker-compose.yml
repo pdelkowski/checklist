@@ -6,6 +6,8 @@ app:
     - db:db
   environment:
     - APP_DB_HOST=db
+  volumes:
+    - .:/home/app/application
 
 db:
   image: postgres:9.4.1
