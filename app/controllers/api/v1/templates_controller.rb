@@ -5,7 +5,6 @@ class Api::V1::TemplatesController < ApplicationController
 
   def index
     @templates = Template.all
-
     render :index
   end
 
@@ -28,6 +27,7 @@ class Api::V1::TemplatesController < ApplicationController
   end
 
   def destroy
+    @template.destroy!
     render :show
   end
 
