@@ -14,6 +14,7 @@ module Api::V1::ChecklistsController::Documentation
     api :POST, '/v1/checklists', 'Create new checklist'
     param :name, String, desc: 'Name of the checklist', required: true,
       meta: { length: 'minimum: 2, maximum: 100' }
+    param :from_template, Integer, desc: 'ID of template from items will be copied to created checklist'
     def create
     end
     
