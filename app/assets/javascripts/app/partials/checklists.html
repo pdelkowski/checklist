@@ -1,0 +1,20 @@
+<section class="checklists">
+  <h1>Checklists</h1>
+    <!-- New checklist form -->
+    <div class="row">
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" id="newChecklistName" placeholder="Type new checklist name">
+            </div>
+        </form>
+    </div>
+
+    <!-- List of checklists -->
+    <div class="row">
+        <ul class="list-group">
+            <a href="#/checklists/{{ checklist.id }}" class="list-group-item" ng-repeat="checklist in checklists">
+                {{ checklist.name }}
+            </a>
+        </ul>
+    </div>
+</section>
