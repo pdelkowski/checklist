@@ -8,23 +8,19 @@ app.controller 'checklistShowCtrl', ['$scope', '$stateParams', 'ItemService', 'c
   $scope.checklist = checklist.data
   $scope.checklist_items = checklist_items.data
 
-  $scope.newItemModel = ''
+  $scope.formItemDescription = ''
 
-  $scope.createItem = () ->
-    console.log $scope.newItemModel
-    newItemModel =
-      description: $scope.newItemModel.trim(),
+  $scope.formItemSubmit = () ->
+    formParams =
+      description: $scope.formItemDescription.trim(),
       checklist_id: $scope.checklist[0].id
 
-    if(!newItemModel.description)
+    if(!$scope.formItemDescription)
       return
 
-    ItemService.save($stateParams.checklist_id, newItemModel)
-
-      # $http.post('/api/v1/checklists/'+ $routeParams.id +'/items', newItem)
-      #   .success(function(data){
-      #     $scope.newItem = '';
-      #         $scope.items.unshift(data);
-      #   });
+    $promise = ItemService.save($stateParams.checklist_id, formParams)
+    $promise.success (data, status) ->
+      $scope.checklist_items.unshift(data)
+      $scope.formItemDescription = null
 
 ]

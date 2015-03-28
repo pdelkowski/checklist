@@ -1,0 +1,7 @@
+<section class="checklists">
+    <h1>Checklists</h1>
+
+    <ul ng-repeat="checklist in checklists">
+      <li>{{ checklist.id }}: <a ui-sref="checklists_show({checklist_id: {{checklist.id}}})">{{ checklist.name}}</a></li>
+    </ul>
+</section>
