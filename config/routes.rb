@@ -5,8 +5,9 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :templates do
-        resources :template_items, as: :items
+        resources :template_items, as: :items, only: [:index, :create]
       end
+      resources :template_items, only: [:show, :update, :destroy]
 
       resources :checklists do
         resources :items, only: [:index, :create]

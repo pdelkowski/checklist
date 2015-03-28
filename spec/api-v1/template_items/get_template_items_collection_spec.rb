@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe "GET /api/v1/templates/:id/items", type: :request do
   let(:template) { create(:template) }
+  let(:url) { api_v1_template_items_url(template) }
 
   before :each do
-    get api_v1_template_items_url(template)
+    get url
   end
 
   context "when no items are defined" do
@@ -14,15 +15,15 @@ describe "GET /api/v1/templates/:id/items", type: :request do
   end
 
   context "when items are defined" do
-    let!(:items) { create(:template_item, template: template) }
+    let!(:items) { (1..10).collect{ create(:template_item, template: template) } }
 
     before :each do
-      get api_v1_template_items_url(template)
+      get url
     end
 
     it { expect(response).to have_http_status(200) }
     it { expect(response).to match_response_schema('template_items_collection') }
-    # it { expect(json.count).to eq(items.count) }
+    it { expect(json.count).to eq(items.count) }
   end
 
   context "when template does not exists" do
