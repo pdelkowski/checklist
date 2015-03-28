@@ -1,15 +1,14 @@
 'use strict'
 
 app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$ocLazyLoadProvider', 'JS_REQUIRES', ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $ocLazyLoadProvider, jsRequires) ->
-  app.controller = $controllerProvider.register;
-  app.directive = $compileProvider.directive;
-  app.filter = $filterProvider.register;
-  app.factory = $provide.factory;
-  app.service = $provide.service;
-  app.constant = $provide.constant;
-  app.value = $provide.value;
+  app.controller = $controllerProvider.register
+  app.directive = $compileProvider.directive
+  app.filter = $filterProvider.register
+  app.factory = $provide.factory
+  app.service = $provide.service
+  app.constant = $provide.constant
+  app.value = $provide.value
 
-  app.constant 'API_URL', 'http://localhost:3000/api/v1/'
 
   # $ocLazyLoadProvider.config
   #   debug: true,
@@ -22,22 +21,32 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
   $stateProvider.state 'checklists',
     title: 'Checklists',
     url: "/checklists",
-    templateUrl: "app/partials/checklists.html",
+    templateUrl: "app/partials/checklist.list.html",
     controller: 'checklistListCtrl',
     resolve:
-      checklists: ['ChecklistService', (ChecklistService) ->
+      checklists: (ChecklistService) ->
         return ChecklistService.fetch()
-      ]
   .state 'checklists_show',
     title: 'Checklist',
-    url: "/checklists/:id",
-    templateUrl: "partials/checklist.html",
-    controller: 'checklistCtrl',
+    url: "/checklists/:checklist_id",
+    templateUrl: "app/partials/checklist.detail.html",
+    controller: 'checklistShowCtrl',
     resolve:
-      users: ['ChecklistService', (ChecklistService) ->
-        console.log 'in chekclists show'
-        # return ChecklistService.fetch(id)
-      ]
+      checklist: ($stateParams, ChecklistService) ->
+        return ChecklistService.fetch($stateParams.checklist_id)
+      checklist_items: ($stateParams, ItemService) ->
+        return ItemService.fetch($stateParams.checklist_id)
+  .state 'checklists_create',
+    title: 'New checklist',
+    url: "/checklists/new",
+    templateUrl: "app/partials/checklist.create.html",
+    controller: 'checklistShowCtrl',
+    resolve:
+      checklist: ($stateParams, ChecklistService) ->
+        return ChecklistService.fetch($stateParams.checklist_id)
+      checklist_items: ($stateParams, ItemService) ->
+        return ItemService.fetch($stateParams.checklist_id)
+
   .state '/template',
     title: 'Templates',
     url: "/templates",
