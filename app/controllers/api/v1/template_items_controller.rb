@@ -1,7 +1,7 @@
 class Api::V1::TemplateItemsController < ApplicationController
   include Documentation
     
-  before_action :set_template
+  before_action :set_template, only: [:index, :create]
 
   def index
     @items = @template.template_items
@@ -13,6 +13,11 @@ class Api::V1::TemplateItemsController < ApplicationController
     form.template_id = @template.id
     @item = CreateTemplateItem.call(form)
     render :show, status: 201
+  end
+  
+  def show
+    @item = TemplateItem.find(params[:id])
+    render :show
   end
 
   private
