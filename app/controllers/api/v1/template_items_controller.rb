@@ -2,6 +2,7 @@ class Api::V1::TemplateItemsController < ApplicationController
   include Documentation
     
   before_action :set_template, only: [:index, :create]
+  before_action :set_item, only: [:show, :update, :destroy]
 
   def index
     @items = @template.template_items
@@ -16,11 +17,20 @@ class Api::V1::TemplateItemsController < ApplicationController
   end
   
   def show
-    @item = TemplateItem.find(params[:id])
+    render :show
+  end
+  
+  def update
+    form = TemplateItemForm.new(params)
+    @item = UpdateTemplateItem.call(@item, form)
     render :show
   end
 
   private
+  
+    def set_item
+      @item = TemplateItem.find(params[:id])
+    end
 
     def set_template
       @template = Template.find(params[:template_id])
