@@ -25,6 +25,11 @@ class Api::V1::TemplateItemsController < ApplicationController
     @item = UpdateTemplateItem.call(@item, form)
     render :show
   end
+  
+  def destroy
+    @item.destroy!
+    render :show
+  end
 
   private
   
