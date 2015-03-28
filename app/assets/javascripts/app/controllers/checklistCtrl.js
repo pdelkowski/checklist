@@ -3,8 +3,27 @@
   'use strict';
   app.controller('checklistListCtrl', [
     '$scope', 'checklists', function($scope, checklists) {
-      console.log(checklists);
       return $scope.checklists = checklists.data;
+    }
+  ]);
+
+  app.controller('checklistShowCtrl', [
+    '$scope', '$stateParams', 'ItemService', 'checklist', 'checklist_items', function($scope, $stateParams, ItemService, checklist, checklist_items) {
+      $scope.checklist = checklist.data;
+      $scope.checklist_items = checklist_items.data;
+      $scope.newItemModel = '';
+      return $scope.createItem = function() {
+        var newItemModel;
+        console.log($scope.newItemModel);
+        newItemModel = {
+          description: $scope.newItemModel.trim(),
+          checklist_id: $scope.checklist[0].id
+        };
+        if (!newItemModel.description) {
+          return;
+        }
+        return ItemService.save($stateParams.checklist_id, newItemModel);
+      };
     }
   ]);
 

@@ -10,31 +10,42 @@
       app.service = $provide.service;
       app.constant = $provide.constant;
       app.value = $provide.value;
-      app.constant('API_URL', 'http://localhost:3000/api/v1/');
       $urlRouterProvider.otherwise("/checklists");
       return $stateProvider.state('checklists', {
         title: 'Checklists',
         url: "/checklists",
-        templateUrl: "app/partials/checklists.html",
+        templateUrl: "app/partials/checklist.list.html",
         controller: 'checklistListCtrl',
         resolve: {
-          checklists: [
-            'ChecklistService', function(ChecklistService) {
-              return ChecklistService.fetch();
-            }
-          ]
+          checklists: function(ChecklistService) {
+            return ChecklistService.fetch();
+          }
         }
       }).state('checklists_show', {
         title: 'Checklist',
-        url: "/checklists/:id",
-        templateUrl: "partials/checklist.html",
-        controller: 'checklistCtrl',
+        url: "/checklists/:checklist_id",
+        templateUrl: "app/partials/checklist.detail.html",
+        controller: 'checklistShowCtrl',
         resolve: {
-          users: [
-            'ChecklistService', function(ChecklistService) {
-              return console.log('in chekclists show');
-            }
-          ]
+          checklist: function($stateParams, ChecklistService) {
+            return ChecklistService.fetch($stateParams.checklist_id);
+          },
+          checklist_items: function($stateParams, ItemService) {
+            return ItemService.fetch($stateParams.checklist_id);
+          }
+        }
+      }).state('checklists_create', {
+        title: 'New checklist',
+        url: "/checklists/new",
+        templateUrl: "app/partials/checklist.create.html",
+        controller: 'checklistShowCtrl',
+        resolve: {
+          checklist: function($stateParams, ChecklistService) {
+            return ChecklistService.fetch($stateParams.checklist_id);
+          },
+          checklist_items: function($stateParams, ItemService) {
+            return ItemService.fetch($stateParams.checklist_id);
+          }
         }
       }).state('/template', {
         title: 'Templates',

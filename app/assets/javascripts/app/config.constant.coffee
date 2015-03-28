@@ -6,6 +6,8 @@ app.constant 'APP_MEDIAQUERY', {
   'mobile': 480
 }
 
+app.constant 'API_URL', 'http://localhost:3000/api/v1/'
+
 app.constant 'JS_REQUIRES', {
   scripts: {
   ## Javascript Plugins
