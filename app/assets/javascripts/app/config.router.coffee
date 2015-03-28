@@ -11,10 +11,10 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
 
   app.constant 'API_URL', 'http://localhost:3000/api/v1/'
 
-  $ocLazyLoadProvider.config
-    debug: true,
-    events: true,
-    modules: jsRequires.modules
+  # $ocLazyLoadProvider.config
+  #   debug: true,
+  #   events: true,
+  #   modules: jsRequires.modules
 
 
   $urlRouterProvider.otherwise "/checklists"
@@ -23,12 +23,20 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
     title: 'Checklists',
     url: "/checklists",
     templateUrl: "app/partials/checklists.html",
-    controller: 'checklistCtrl',
+    controller: 'checklistListCtrl',
     resolve:
       checklists: ['ChecklistService', (ChecklistService) ->
-        throw new Error("my error message in resolve");
-        console log 'in resolve'
         return ChecklistService.fetch()
+      ]
+  .state 'checklists_show',
+    title: 'Checklist',
+    url: "/checklists/:id",
+    templateUrl: "partials/checklist.html",
+    controller: 'checklistCtrl',
+    resolve:
+      users: ['ChecklistService', (ChecklistService) ->
+        console.log 'in chekclists show'
+        # return ChecklistService.fetch(id)
       ]
   .state '/template',
     title: 'Templates',

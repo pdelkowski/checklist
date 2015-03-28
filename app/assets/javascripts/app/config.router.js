@@ -11,23 +11,28 @@
       app.constant = $provide.constant;
       app.value = $provide.value;
       app.constant('API_URL', 'http://localhost:3000/api/v1/');
-      $ocLazyLoadProvider.config({
-        debug: true,
-        events: true,
-        modules: jsRequires.modules
-      });
       $urlRouterProvider.otherwise("/checklists");
       return $stateProvider.state('checklists', {
         title: 'Checklists',
         url: "/checklists",
         templateUrl: "app/partials/checklists.html",
-        controller: 'checklistCtrl',
+        controller: 'checklistListCtrl',
         resolve: {
           checklists: [
             'ChecklistService', function(ChecklistService) {
-              throw new Error("my error message in resolve");
-              console(log('in resolve'));
               return ChecklistService.fetch();
+            }
+          ]
+        }
+      }).state('checklists_show', {
+        title: 'Checklist',
+        url: "/checklists/:id",
+        templateUrl: "partials/checklist.html",
+        controller: 'checklistCtrl',
+        resolve: {
+          users: [
+            'ChecklistService', function(ChecklistService) {
+              return console.log('in chekclists show');
             }
           ]
         }

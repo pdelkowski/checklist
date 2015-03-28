@@ -8,11 +8,10 @@ app.service 'ChecklistService', ['$http', 'API_URL', ($http, API_URL) ->
     return $http.get(API_URL+query)
 
   @fetch = () ->
-    console log 'in fetch in checklistService'
     $http.get(API_URL + 'checklists').success (data, status, headers, config) ->
-      return data;
+      return data
     .error (data, status, headers, config) ->
-      console.log('Wystapil blad')
+      console.log('Error in checklistService, method fetch()')
       return 'Error'
 
   @get = (id) ->

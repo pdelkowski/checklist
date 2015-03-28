@@ -23,6 +23,7 @@
 //= require app/config.router
 //
 // Services
-//= require app/services/checklistService
+//= require_tree ./app/services
 //
 // Controller
+//= require_tree ./app/controllers

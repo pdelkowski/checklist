@@ -1,20 +1,7 @@
-<section class="checklists" ng-controller="ChecklistsController">
-    <!-- New checklist form -->
-    <div class="row">
-        <form ng-submit="addChecklist()">
-            <div class="form-group">
-                <input type="text" class="form-control" id="newChecklistName" placeholder="Type new checklist name"
-                        ng-model="newChecklist">
-            </div>
-        </form>
-    </div>
+<section class="checklists" ng-controller="checklistListCtrl">
+    <h1>Checklists</h1>
 
-    <!-- List of checklists -->
-    <div class="row">
-        <ul class="list-group">
-            <a href="#/checklists/{{ checklist.id }}" class="list-group-item" ng-repeat="checklist in checklists">
-                {{ checklist.name }}
-            </a>
-        </ul>
-    </div>
+    <ul ng-repeat="checklist in checklists">
+      <li>{{ checklist.id }}: <a ui-sref="checklists_show({id: {{checklist.id}}})">{{ checklist.name}}</a></li>
+    </ul>
 </section>

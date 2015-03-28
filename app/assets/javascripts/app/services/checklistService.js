@@ -10,11 +10,10 @@
         return $http.get(API_URL + query);
       };
       this.fetch = function() {
-        console(log('in fetch in checklistService'));
         return $http.get(API_URL + 'checklists').success(function(data, status, headers, config) {
           return data;
         }).error(function(data, status, headers, config) {
-          console.log('Wystapil blad');
+          console.log('Error in checklistService, method fetch()');
           return 'Error';
         });
       };
