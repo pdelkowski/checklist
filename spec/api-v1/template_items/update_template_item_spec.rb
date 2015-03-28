@@ -33,4 +33,9 @@ describe "PUT /api/v1/template_items/:id", type: :request do
     let(:put_attributes) { build(:template_item_attributes, name: Faker::Lorem.characters(150)) }
     include_examples "validation_failed error", { 'name' => ['too_long'] }
   end
+  
+  context "when item does not exists" do
+    let(:item) { 0 }
+    include_examples "resource_not_found error"
+  end
 end
