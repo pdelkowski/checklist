@@ -1,71 +1,51 @@
 require 'rails_helper'
 
-describe "Create new checklist item", type: :request do
-  let(:checklist) { FactoryGirl.create(:checklist) }
-  let(:data) { { description: 'My checklist item' } }
-
-  let(:path) { "/api/v1/checklists/#{checklist.id}/items" }
-  let(:path_404) { "/api/v1/checklists/123394857/items" }
-
-  context "with valid data" do
-    it "returns item resource" do
-      post path, data
-
-      expect(response).to have_http_status(201)
-      expect(response).to match_response_schema('item')
-      expect(json['description']).to eq(data[:description])
+describe "POST /api/v1/checklists/:id/items", type: :request do
+  subject { response }
+  
+  let(:checklist) { create(:checklist) }
+  let(:post_attributes) { build(:item_attributes) }
+  let(:url) { api_v1_checklist_items_url(checklist) }
+  
+  before :each do
+    post url, post_attributes
+  end
+  
+  context "with valid input" do
+    it "creates the resource" do
+      is_expected.to have_http_status(201)
+      is_expected.to match_response_schema('item')
+    end
+    
+    it "makes resource available on the list" do
+      get url
+      
+      is_expected.to have_http_status(200)
+      expect(json.count).to eq(1)
     end
   end
-
-  context "when description is empty" do
-    it "returns validation failed error" do
-      data[:description] = ''
-      post path, data
-
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('validation_failed')
-
-      expected_errors = { 'description' => ['required', 'too_short'] }
-      expect(json['errors']).to eq(expected_errors)
-    end
+  
+  context "with empty description" do
+    let(:post_attributes) { build(:item_attributes, description: '') }
+    
+    include_examples "validation_failed error", { 'description' => ['required', 'too_short'] }
   end
-
-  context "when description is too short" do
-    it "returns validation failed error" do
-      data[:description] = 'a'
-      post path, data
-
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('validation_failed')
-
-      expected_errors = { 'description' => ['too_short'] }
-      expect(json['errors']).to eq(expected_errors)
-    end
+  
+  context "with too short description" do
+    let(:post_attributes) { build(:item_attributes, description: 'a') }
+    
+    include_examples "validation_failed error", { 'description' => ['too_short'] }
   end
-
-  context "when description is too long" do
-    it "returns validation failed error" do
-      data[:description] = 'This is item description' * 20
-      post path, data
-
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('validation_failed')
-
-      expected_errors = { 'description' => ['too_long'] }
-      expect(json['errors']).to eq(expected_errors)
-    end
+  
+  context "with too long description" do
+    let(:post_attributes) { build(:item_attributes, description: Faker::Lorem.characters(150)) }
+    
+    include_examples "validation_failed error", { 'description' => ['too_long'] }
   end
-
-  context "when checklist not exists" do
-    it "returns not found error" do
-      post path_404, {}
-
-      expect(response).to have_http_status(404)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('resource_not_found')
-    end
+  
+  context "when checklist does not exists" do
+    let(:checklist) { 0 }
+    
+    include_examples "resource_not_found error"
   end
 end

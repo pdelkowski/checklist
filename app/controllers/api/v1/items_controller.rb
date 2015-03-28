@@ -12,6 +12,7 @@ class Api::V1::ItemsController < ApplicationController
 
   def create
     form = ItemForm.new(item_params)
+    form.checklist_id = @checklist.id
     @item = CreateItem.call(form)
 
     render :show, status: 201

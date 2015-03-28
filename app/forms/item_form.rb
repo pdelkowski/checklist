@@ -1,4 +1,5 @@
 class ItemForm < Form
+  attribute :checklist_id
   attribute :description
 
   validates :description,
