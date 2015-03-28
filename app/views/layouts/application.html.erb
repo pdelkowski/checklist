@@ -19,7 +19,7 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script> -->
   <%= javascript_include_tag 'application' %>
 </head>
 <body>
@@ -67,8 +67,7 @@
 
             <div class="col-md-9">
 
-              <h3>Checklists</h3> 
-              <section id="main-content" ng-view></section>
+              <div ui-view></div>
 
 
               <!-- future comments, maybe ? -->

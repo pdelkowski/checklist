@@ -12,4 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//
+//= require vendor/angular-ui-router.min
+//= require vendor/ocLazyLoad.min
+//
+// Main app
+//= require app/app
+//= require app/main
+//= require app/config.constant
+//= require app/config.router
+//
+// Services
+//= require app/services/checklistService
+//
+// Controller
