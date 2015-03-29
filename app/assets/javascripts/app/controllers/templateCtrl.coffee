@@ -61,7 +61,7 @@ app.controller 'templateDetailCtrl', ['$scope', '$stateParams', 'TemplateItemSer
 
   # Delete item
   $scope.templateItemDelete = (templateItem_id, index) ->
-    $promise = templateItemService.delete(templateItem_id)
+    $promise = TemplateItemService.delete(templateItem_id)
     $promise.success (data, status) ->
       $scope.template_items.splice(index, 1)
       console.log 'Template item successfully removed'

@@ -26,6 +26,8 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
     resolve:
       checklists: (ChecklistService) ->
         return ChecklistService.fetch()
+      templates: (TemplateService) ->
+        return TemplateService.fetch()
   .state 'checklists_show',
     title: 'Checklist',
     url: "/checklists/:checklist_id",

@@ -2,14 +2,19 @@
 (function() {
   'use strict';
   app.controller('checklistListCtrl', [
-    '$scope', 'ChecklistService', 'checklists', function($scope, ChecklistService, checklists) {
+    '$scope', 'ChecklistService', 'checklists', 'templates', function($scope, ChecklistService, checklists, templates) {
       $scope.checklists = checklists.data;
+      $scope.templates = templates.data;
+      console.log($scope.templates);
       $scope.formChecklistName = '';
       $scope.formChecklistSubmit = function() {
         var $promise, formParams;
         formParams = {
           name: $scope.formChecklistName.trim()
         };
+        if ($scope.formChecklistTemplate) {
+          formParams['from_template'] = $scope.formChecklistTemplate.id;
+        }
         if (!$scope.formChecklistName) {
           return;
         }

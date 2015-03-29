@@ -7,8 +7,13 @@
               <div class="col-md-12">
                 <h3>Add new checklist</h3>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-5">
                 <input type="text" class="form-control" id="newChecklistName" placeholder="Type new checklist name" ng-model="formChecklistName">
+              </div>
+              <div class="col-md-3">
+                <select ng-model="formChecklistTemplate" ng-options="opt as opt.name for opt in templates" class="form-control">
+                  <option value="" selected disabled>Template</option>
+                </select>
               </div>
               <div class="col-md-2">
                 <input type="submit" value="Save" class="btn btn-success">
@@ -23,7 +28,7 @@
           <h3>All checklists</h3>
         </div>
         <div ng-repeat="checklist in checklists">
-          <div class="col-md-7">
+          <div class="col-md-8">
             <a ui-sref="checklists_show({checklist_id: {{checklist.id}}})">{{ checklist.name}}</a><br>
             <small editable-text="checklist.name" onbeforesave="checklistUpdate(checklist.id, $data)">edit</small><br><br>
           </div>

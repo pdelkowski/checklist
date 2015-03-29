@@ -2,7 +2,7 @@
 
 app.service 'TemplateItemService', ['$http', 'API_URL', ($http, API_URL) ->
   @save = (template_id, item) ->
-    return $http.post API_URL + 'templates/' + template_id + '/template_items', item
+    return $http.post API_URL + 'templates/' + template_id + '/items', item
 
   @update = (item_id, description) ->
     params =
@@ -11,7 +11,7 @@ app.service 'TemplateItemService', ['$http', 'API_URL', ($http, API_URL) ->
     return $http.put(API_URL + 'template_items/' + item_id, params)
 
   @fetch = (template_id) ->
-    $http.get(API_URL + 'templates/' + template_id + '/template_items').success (data, status, headers, config) ->
+    $http.get(API_URL + 'templates/' + template_id + '/items').success (data, status, headers, config) ->
       return data
     .error (data, status, headers, config) ->
       console.log('Error in templateItemService, method fetch()')

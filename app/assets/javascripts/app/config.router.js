@@ -19,6 +19,9 @@
         resolve: {
           checklists: function(ChecklistService) {
             return ChecklistService.fetch();
+          },
+          templates: function(TemplateService) {
+            return TemplateService.fetch();
           }
         }
       }).state('checklists_show', {

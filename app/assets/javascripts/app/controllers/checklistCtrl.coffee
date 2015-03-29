@@ -1,7 +1,9 @@
 'use strict'
 
-app.controller 'checklistListCtrl', ['$scope', 'ChecklistService', 'checklists', ($scope, ChecklistService, checklists) ->
+app.controller 'checklistListCtrl', ['$scope', 'ChecklistService', 'checklists', 'templates', ($scope, ChecklistService, checklists, templates) ->
   $scope.checklists = checklists.data
+  $scope.templates = templates.data
+  console.log $scope.templates
 
   $scope.formChecklistName = ''
 
@@ -9,6 +11,9 @@ app.controller 'checklistListCtrl', ['$scope', 'ChecklistService', 'checklists',
   $scope.formChecklistSubmit = () ->
     formParams =
       name: $scope.formChecklistName.trim(),
+
+    if( $scope.formChecklistTemplate )
+      formParams['from_template'] = $scope.formChecklistTemplate.id
 
     if(!$scope.formChecklistName)
       return

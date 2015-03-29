@@ -67,7 +67,7 @@
       };
       return $scope.templateItemDelete = function(templateItem_id, index) {
         var $promise;
-        $promise = templateItemService["delete"](templateItem_id);
+        $promise = TemplateItemService["delete"](templateItem_id);
         return $promise.success(function(data, status) {
           $scope.template_items.splice(index, 1);
           return console.log('Template item successfully removed');

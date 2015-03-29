@@ -4,7 +4,7 @@
   app.service('TemplateItemService', [
     '$http', 'API_URL', function($http, API_URL) {
       this.save = function(template_id, item) {
-        return $http.post(API_URL + 'templates/' + template_id + '/template_items', item);
+        return $http.post(API_URL + 'templates/' + template_id + '/items', item);
       };
       this.update = function(item_id, description) {
         var params;
@@ -14,7 +14,7 @@
         return $http.put(API_URL + 'template_items/' + item_id, params);
       };
       this.fetch = function(template_id) {
-        return $http.get(API_URL + 'templates/' + template_id + '/template_items').success(function(data, status, headers, config) {
+        return $http.get(API_URL + 'templates/' + template_id + '/items').success(function(data, status, headers, config) {
           return data;
         }).error(function(data, status, headers, config) {
           console.log('Error in templateItemService, method fetch()');
