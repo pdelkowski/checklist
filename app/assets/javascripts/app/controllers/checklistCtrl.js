@@ -11,18 +11,21 @@
     '$scope', '$stateParams', 'ItemService', 'checklist', 'checklist_items', function($scope, $stateParams, ItemService, checklist, checklist_items) {
       $scope.checklist = checklist.data;
       $scope.checklist_items = checklist_items.data;
-      $scope.newItemModel = '';
-      return $scope.createItem = function() {
-        var newItemModel;
-        console.log($scope.newItemModel);
-        newItemModel = {
-          description: $scope.newItemModel.trim(),
+      $scope.formItemDescription = '';
+      return $scope.formItemSubmit = function() {
+        var $promise, formParams;
+        formParams = {
+          description: $scope.formItemDescription.trim(),
           checklist_id: $scope.checklist[0].id
         };
-        if (!newItemModel.description) {
+        if (!$scope.formItemDescription) {
           return;
         }
-        return ItemService.save($stateParams.checklist_id, newItemModel);
+        $promise = ItemService.save($stateParams.checklist_id, formParams);
+        return $promise.success(function(data, status) {
+          $scope.checklist_items.unshift(data);
+          return $scope.formItemDescription = null;
+        });
       };
     }
   ]);

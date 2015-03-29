@@ -34,19 +34,6 @@
             return ItemService.fetch($stateParams.checklist_id);
           }
         }
-      }).state('checklists_create', {
-        title: 'New checklist',
-        url: "/checklists/new",
-        templateUrl: "app/partials/checklist.create.html",
-        controller: 'checklistShowCtrl',
-        resolve: {
-          checklist: function($stateParams, ChecklistService) {
-            return ChecklistService.fetch($stateParams.checklist_id);
-          },
-          checklist_items: function($stateParams, ItemService) {
-            return ItemService.fetch($stateParams.checklist_id);
-          }
-        }
       }).state('/template', {
         title: 'Templates',
         url: "/templates",

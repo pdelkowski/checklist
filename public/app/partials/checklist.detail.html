@@ -1,0 +1,22 @@
+<section class="checklist">
+    <h1>Checklist</h1>
+    <small><a ui-sref="checklists">Back</a></small>
+
+    <p>#ID: {{ checklist[0].id }}</p>
+    <p>Name: {{ checklist[0].name }}</p>
+
+    <hr>
+
+    <h3>List items</h3>
+    <small><a ui-sref="checklists">Add new item</a></small>
+    <form ng-submit="formItemSubmit()">
+        <div class="form-group">
+            <input type="text" class="form-control" id="newItemName" placeholder="Type new item name" ng-model="formItemDescription">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+    </form>
+
+    <ul ng-repeat="item in checklist_items">
+      <li>{{ item.description }}</li>
+    </ul>
+</section>
