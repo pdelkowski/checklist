@@ -11,7 +11,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    form = ItemForm.new(item_params)
+    form = Item::CreateForm.new(item_params)
     form.checklist_id = @checklist.id
     @item = CreateItem.call(form)
 
@@ -19,7 +19,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def update
-    form = ItemForm.new(item_params)
+    form = Item::UpdateForm.new(item_params)
     @item = UpdateItem.call(@item, form)
 
     render :show

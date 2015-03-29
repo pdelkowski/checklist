@@ -1,7 +1,7 @@
 class CreateItem < Service
-  attribute :form, ItemForm
+  attribute :form, Item::CreateForm
 
-  # @param form ItemForm
+  # @param form Item::CreateForm
   def initialize(form)
     super(form: form)
   end

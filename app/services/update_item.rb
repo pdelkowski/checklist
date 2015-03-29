@@ -1,9 +1,9 @@
 class UpdateItem < Service
   attribute :item, Item
-  attribute :form, ItemForm
+  attribute :form, Item::UpdateForm
 
   # @param template Item
-  # @param form ItemForm
+  # @param form Item::UpdateForm
   def initialize(item, form)
     super(form: form, item: item)
   end
