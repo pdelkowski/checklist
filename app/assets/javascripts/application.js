@@ -15,6 +15,7 @@
 //
 //= require vendor/angular-ui-router.min
 //= require vendor/ocLazyLoad.min
+//= require vendor/xeditable.min
 //
 // Main app
 //= require app/app

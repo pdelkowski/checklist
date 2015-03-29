@@ -6,8 +6,18 @@
       this.save = function(checklist_id, item) {
         return $http.post(API_URL + '/checklists/' + checklist_id + '/items', item);
       };
-      this.search = function(query) {
-        return $http.get(API_URL + query);
+      this.update = function(item_id, description) {
+        var params;
+        params = {
+          description: description
+        };
+        return $http.put(API_URL + 'items/' + item_id, params);
+      };
+      this.complete = function(item_id) {
+        return $http.post(API_URL + 'items/' + item_id + '/complete');
+      };
+      this.uncomplete = function(item_id) {
+        return $http.post(API_URL + 'items/' + item_id + '/uncomplete');
       };
       this.fetch = function(checklist_id) {
         return $http.get(API_URL + '/checklists/' + checklist_id + '/items').success(function(data, status, headers, config) {
@@ -19,6 +29,9 @@
       };
       this.get = function(id) {
         return $http.get(API_URL + 'items/' + id);
+      };
+      this["delete"] = function(item_id) {
+        return $http["delete"](API_URL + 'items/' + item_id);
       };
     }
   ]);

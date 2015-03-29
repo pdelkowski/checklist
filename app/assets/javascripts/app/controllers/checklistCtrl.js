@@ -2,21 +2,52 @@
 (function() {
   'use strict';
   app.controller('checklistListCtrl', [
-    '$scope', 'checklists', function($scope, checklists) {
-      return $scope.checklists = checklists.data;
+    '$scope', 'ChecklistService', 'checklists', function($scope, ChecklistService, checklists) {
+      $scope.checklists = checklists.data;
+      $scope.formChecklistName = '';
+      $scope.formChecklistSubmit = function() {
+        var $promise, formParams;
+        formParams = {
+          name: $scope.formChecklistName.trim()
+        };
+        if (!$scope.formChecklistName) {
+          return;
+        }
+        $promise = ChecklistService.create(formParams);
+        return $promise.success(function(data, status) {
+          $scope.checklists.unshift(data);
+          $scope.formChecklistName = null;
+          return console.log('Checklist created');
+        });
+      };
+      $scope.checklistUpdate = function(checklist_id, name) {
+        var $promise;
+        $promise = ChecklistService.update(checklist_id, name);
+        return $promise.success(function(data, status) {
+          return console.log('Checklist successfully updated');
+        });
+      };
+      return $scope.checklistDelete = function(checklist_id, index) {
+        var $promise;
+        $promise = ChecklistService["delete"](checklist_id);
+        return $promise.success(function(data, status) {
+          $scope.checklists.splice(index, 1);
+          return console.log('Checklist successfully removed');
+        });
+      };
     }
   ]);
 
-  app.controller('checklistShowCtrl', [
+  app.controller('checklistDetailCtrl', [
     '$scope', '$stateParams', 'ItemService', 'checklist', 'checklist_items', function($scope, $stateParams, ItemService, checklist, checklist_items) {
       $scope.checklist = checklist.data;
       $scope.checklist_items = checklist_items.data;
       $scope.formItemDescription = '';
-      return $scope.formItemSubmit = function() {
+      $scope.formItemSubmit = function() {
         var $promise, formParams;
         formParams = {
           description: $scope.formItemDescription.trim(),
-          checklist_id: $scope.checklist[0].id
+          checklist_id: $scope.checklist.id
         };
         if (!$scope.formItemDescription) {
           return;
@@ -26,6 +57,35 @@
           $scope.checklist_items.unshift(data);
           return $scope.formItemDescription = null;
         });
+      };
+      $scope.itemUpdate = function(item_id, description) {
+        var $promise;
+        $promise = ItemService.update(item_id, description);
+        return $promise.success(function(data, status) {
+          return console.log('Item successfully updated');
+        });
+      };
+      $scope.itemDelete = function(item_id, index) {
+        var $promise;
+        $promise = ItemService["delete"](item_id);
+        return $promise.success(function(data, status) {
+          $scope.checklist_items.splice(index, 1);
+          return console.log('Item successfully removed');
+        });
+      };
+      return $scope.itemComplete = function(e, item_id) {
+        var $promise;
+        if (e.toElement.checked) {
+          $promise = ItemService.complete(item_id);
+          return $promise.success(function(data, status) {
+            return console.log('Successfully completed item');
+          });
+        } else {
+          $promise = ItemService.uncomplete(item_id);
+          return $promise.success(function(data, status) {
+            return console.log('Successfully uncompleted item');
+          });
+        }
       };
     }
   ]);

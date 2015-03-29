@@ -3,8 +3,15 @@
   'use strict';
   app.service('ChecklistService', [
     '$http', 'API_URL', function($http, API_URL) {
-      this.save = function(event) {
-        return $http.post('/checklists', event);
+      this.create = function(checklist) {
+        return $http.post(API_URL + '/checklists', checklist);
+      };
+      this.update = function(checklist_id, name) {
+        var params;
+        params = {
+          name: name
+        };
+        return $http.put(API_URL + 'checklists/' + checklist_id, params);
       };
       this.search = function(query) {
         return $http.get(API_URL + query);
@@ -18,7 +25,11 @@
         });
       };
       this.get = function(id) {
-        return $http.get(API_URL + 'chechlists/' + id);
+        return $http.get(API_URL + 'checklists/' + id);
+      };
+      this["delete"] = function(checklist_id) {
+        console.log(checklist_id);
+        return $http["delete"](API_URL + 'checklists/' + checklist_id);
       };
     }
   ]);

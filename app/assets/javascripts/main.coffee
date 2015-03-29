@@ -1,9 +1,11 @@
 'use strict'
 window.app = angular.module "checklistApp", ["appDeps"]
 
-app.run ['$rootScope', '$state', '$stateParams', ($rootScope, $state, $stateParams) ->
+app.run ['$rootScope', '$state', '$stateParams', 'editableOptions', ($rootScope, $state, $stateParams, editableOptions) ->
   $rootScope.$state = $state
   $rootScope.$stateParams = $stateParams
+
+  $rootScope.editableOptions.theme = 'bs3'
 
   $rootScope.app =
     name: 'checklistApp',

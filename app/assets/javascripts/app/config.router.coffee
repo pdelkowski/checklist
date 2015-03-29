@@ -30,20 +30,30 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
     title: 'Checklist',
     url: "/checklists/:checklist_id",
     templateUrl: "app/partials/checklist.detail.html",
-    controller: 'checklistShowCtrl',
+    controller: 'checklistDetailCtrl',
     resolve:
       checklist: ($stateParams, ChecklistService) ->
-        return ChecklistService.fetch($stateParams.checklist_id)
+        return ChecklistService.get($stateParams.checklist_id)
       checklist_items: ($stateParams, ItemService) ->
         return ItemService.fetch($stateParams.checklist_id)
 
-  .state '/template',
-    title: 'Templates',
+  .state 'templates',
+    title: 'Template',
     url: "/templates",
-    templateUrl: "partials/templates.html",
-    controller: 'templatesCtrl',
+    templateUrl: "app/partials/template.list.html",
+    controller: 'templateListCtrl',
     resolve:
-      users: ['TemplatesService', (TemplatesService) ->
-        return TemplatesService.fetch()
-      ]
+      templates: (TemplateService) ->
+        return TemplateService.fetch()
+  .state 'templates_show',
+    title: 'Template',
+    url: "/templates/:template_id",
+    templateUrl: "app/partials/template.detail.html",
+    controller: 'templateDetailCtrl',
+    resolve:
+      template: ($stateParams, TemplateService) ->
+        return TemplateService.get($stateParams.template_id)
+      template_items: ($stateParams, TemplateItemService) ->
+        return TemplateItemService.fetch($stateParams.template_id)
+
 ]

@@ -1,0 +1,36 @@
+<section class="checklists">
+    <h1>Templates</h1>
+
+    <div class="row">
+        <form ng-submit="formTemplateSubmit()">
+            <div class="form-group">
+              <div class="col-md-12">
+                <h3>Add new template</h3>
+              </div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="newTemplateName" placeholder="Type new template name" ng-model="formTemplateName">
+              </div>
+              <div class="col-md-2">
+                <input type="submit" value="Save" class="btn btn-success">
+              </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+          <h3>All templates</h3>
+        </div>
+        <div ng-repeat="template in templates">
+          <div class="col-md-7">
+            <a ui-sref="templates_show({template_id: {{template.id}}})">{{ template.name}}</a><br>
+            <small editable-text="template.name" onbeforesave="templateUpdate(template.id, $data)">edit</small><br><br>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="templateDelete(template.id, $index)" class="btn btn-danger btn-sm">Remove</button>
+          </div>
+        </div>
+    </div>
+
+</section>

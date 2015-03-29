@@ -1,8 +1,14 @@
 'use strict'
 
 app.service 'ChecklistService', ['$http', 'API_URL', ($http, API_URL) ->
-  @save = (event) ->
-    return $http.post '/checklists', event
+  @create = (checklist) ->
+    return $http.post(API_URL + '/checklists', checklist)
+
+  @update = (checklist_id, name) ->
+    params =
+      name: name
+
+    return $http.put(API_URL + 'checklists/' + checklist_id, params)
 
   @search = (query) ->
     return $http.get(API_URL+query)
@@ -15,6 +21,10 @@ app.service 'ChecklistService', ['$http', 'API_URL', ($http, API_URL) ->
       return 'Error'
 
   @get = (id) ->
-    return $http.get(API_URL + 'chechlists/' + id)
+    return $http.get(API_URL + 'checklists/' + id)
+
+  @delete = (checklist_id) ->
+    console.log checklist_id
+    return $http.delete(API_URL + 'checklists/' + checklist_id)
   return
 ]
