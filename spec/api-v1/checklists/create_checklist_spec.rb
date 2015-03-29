@@ -1,62 +1,61 @@
 require 'rails_helper'
 
 describe "Creating the checklist", type: :request do
-  let(:path) { '/api/v1/checklists' }
-
-  context "with valid data" do
-    it "returns newly created checklist resource" do
-      data = { name: 'My checklist' }
-      post path, data
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('checklist')
-      expect(json['name']).to eq(data[:name])
+  subject { response }
+  
+  let!(:template) { create(:template) }
+  let!(:template_items) { (1..10).collect { create(:template_item, template: template) } }
+  
+  let(:url) { api_v1_checklists_url }
+  let(:post_attributes) { build(:checklist_attributes) }
+  
+  before :each do
+    post url, post_attributes
+  end
+  
+  context "with valid input" do
+    it "creates the resource" do
+      is_expected.to have_http_status(201)
+      is_expected.to match_response_schema('checklist')
+      expect(json['id']).to_not be_nil
+      expect(json['name']).to eq(post_attributes[:name])
       expect(json['completed_at']).to eq(nil)
     end
-  end
-
-  context "with empty name attribute" do
-    it "returns validation error" do
-      post path, { name: '' }
-
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
-
-      expect(json['error_code']).to eq('validation_failed')
-      expected_errors = {
-          'name' => ['required', 'too_short']
-      }
-      expect(json['errors']).to eq(expected_errors)
+    
+    context "when template is specified" do
+      let(:post_attributes) { build(:checklist_attributes, from_template: template.id) }
+    
+      before :each do
+        get api_v1_checklist_items_url(json['id'])
+      end
+    
+      it "creates checklist's items from template" do
+        is_expected.to have_http_status(200)
+        is_expected.to match_response_schema('items_collection')
+        expect(json.count).to eq(template_items.count)
+      end
     end
   end
-
-  context "with too short name attribute" do
-    it "returns validation error" do
-      post path, { name: 'a' }
-
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
-
-      expect(json['error_code']).to eq('validation_failed')
-      expected_errors = {
-          'name' => ['too_short']
-      }
-      expect(json['errors']).to eq(expected_errors)
+  
+  context "with invalid input" do
+    describe "empty name" do
+      let(:post_attributes) { build(:checklist_attributes, name: '') }
+      include_examples "validation_failed error", { 'name' => ['required', 'too_short'] }
     end
-  end
 
-  context "with too long name attribute" do
-    it "returns validation error" do
-      post path, { name: 'This is checklist name' * 20 }
+    describe "too short name" do
+      let(:post_attributes) { build(:checklist_attributes, name: 'a') }
+      include_examples "validation_failed error", { 'name' => ['too_short'] }
+    end
 
-      expect(response).to have_http_status(422)
-      expect(response).to match_response_schema('error')
+    describe "too long name" do
+      let(:post_attributes) { build(:checklist_attributes, name: Faker::Lorem.characters(150)) }
+      include_examples "validation_failed error", { 'name' => ['too_long'] }
+    end
 
-      expect(json['error_code']).to eq('validation_failed')
-      expected_errors = {
-          'name' => ['too_long']
-      }
-      expect(json['errors']).to eq(expected_errors)
+    describe "defined from_template does not exists" do
+      let(:post_attributes) { build(:checklist_attributes, from_template: '0') }
+      include_examples "validation_failed error", { 'from_template' => ['resource_not_found'] }
     end
   end
 end

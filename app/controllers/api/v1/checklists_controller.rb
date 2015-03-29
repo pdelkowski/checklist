@@ -14,10 +14,10 @@ class Api::V1::ChecklistsController < ApplicationController
   end
 
   def create
-    form = ChecklistForm.new(checklist_params)
+    form = Checklist::CreateForm.new(new_checklist_params)
     @checklist = CreateChecklist.call(form)
 
-    render :show
+    render :show, status: 201
   end
 
   def update
@@ -37,6 +37,10 @@ class Api::V1::ChecklistsController < ApplicationController
 
   def set_checklist
     @checklist = Checklist.find(params[:id])
+  end
+
+  def new_checklist_params
+    params.permit(:name, :from_template)
   end
 
   def checklist_params

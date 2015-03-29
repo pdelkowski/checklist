@@ -1,7 +1,7 @@
 class CreateChecklist < Service
-  attribute :form, ChecklistForm
+  attribute :form, Checklist::CreateForm
 
-  # @param form ChecklistForm
+  # @param form Checklist::CreateForm
   def initialize(form)
     super(form: form)
   end
@@ -9,8 +9,20 @@ class CreateChecklist < Service
   def call
     form.validate!
 
-    checklist = Checklist.new(form.attributes)
+    attributes = form.attributes
+    template_id = attributes.delete(:from_template)
+
+    checklist = Checklist.new(attributes)
+    checklist.items = get_items_from_template(template_id)
     checklist.save!
     checklist
   end
+  
+  private
+  
+    def get_items_from_template(id)
+      TemplateItem.where(template_id: id).collect do |item|
+        Item.new(description: item.name)
+      end
+    end
 end
