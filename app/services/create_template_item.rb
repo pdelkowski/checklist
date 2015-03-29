@@ -1,7 +1,7 @@
 class CreateTemplateItem < Service
-  attribute :form, TemplateItemForm
+  attribute :form, TemplateItem::CreateForm
 
-  # @param form TemplateItemForm
+  # @param form TemplateItem:CreateForm
   def initialize(form)
     super(form: form)
   end

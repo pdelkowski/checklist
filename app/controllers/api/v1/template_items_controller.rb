@@ -10,7 +10,7 @@ class Api::V1::TemplateItemsController < ApplicationController
   end
   
   def create
-    form = TemplateItemForm.new(params)
+    form = TemplateItem::CreateForm.new(params)
     form.template_id = @template.id
     @item = CreateTemplateItem.call(form)
     render :show, status: 201
@@ -21,7 +21,7 @@ class Api::V1::TemplateItemsController < ApplicationController
   end
   
   def update
-    form = TemplateItemForm.new(params)
+    form = TemplateItem::UpdateForm.new(params)
     @item = UpdateTemplateItem.call(@item, form)
     render :show
   end
