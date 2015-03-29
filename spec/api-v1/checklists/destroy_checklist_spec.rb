@@ -1,26 +1,34 @@
 require 'rails_helper'
 
-describe "Destroy the checklist", type: :request do
-  let(:checklist) { FactoryGirl.create(:checklist) }
-  let(:path) { "/api/v1/checklists/#{checklist.id}" }
-
-  context "when checklist exists" do
-    it "it returns checklist resource" do
-      delete path
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('checklist')
-      expect(json['id']).to eq(checklist.id)
-    end
+describe "DELETE /api/v1/checklists/:id", type: :request do
+  subject { response }
+  
+  let(:checklist) { create(:checklist) }
+  let!(:items) { create(:item, checklist: checklist) }
+  let(:url) { api_v1_checklist_url(checklist) }
+  
+  before :each do
+    delete url
   end
-
-  context "when checklist not exists" do
-    it "returns resource not found error" do
-      delete "#{path}18934"
-
-      expect(response).to have_http_status(404)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('resource_not_found')
-    end
+  
+  it "returns the resource" do
+    is_expected.to have_http_status(200)
+    is_expected.to match_response_schema('checklist')
+  end
+  
+  it "removes all items of the checklist" do
+    count = Item.where(checklist_id: checklist.id).count
+    expect(count).to eq(0)
+  end
+  
+  context "when requesting removed checklist" do
+    before { get url }
+    include_examples "resource_not_found error"
+  end
+ 
+  context "when checklist does not exists" do
+    let(:checklist) { 0 }
+    let!(:items) {}
+    include_examples "resource_not_found error"
   end
 end
