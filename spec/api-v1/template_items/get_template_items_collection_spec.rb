@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "GET /api/v1/templates/:id/items", type: :request do
   let(:template) { create(:template) }
-  let(:url) { api_v1_template_items_url(template) }
+  let(:url) { "/api/v1/templates/#{template.try(:id)}/items" }
 
   before :each do
     get url

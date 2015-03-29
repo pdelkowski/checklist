@@ -28,8 +28,7 @@ class Api::V1::ChecklistsController < ApplicationController
   end
 
   def destroy
-    DeleteChecklist.new(@checklist)
-
+    @checklist.destroy!
     render :show
   end
 
