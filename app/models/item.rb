@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  belongs_to :checklist
+  belongs_to :checklist, counter_cache: true
 
   def completed?
     !completed_at.nil?

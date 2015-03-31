@@ -17,6 +17,13 @@ describe "POST /api/v1/checklists/:id/items", type: :request do
       is_expected.to match_response_schema('item')
     end
     
+    it "increments items counter cache" do
+      get "/api/v1/checklists/#{checklist.id}"
+      
+      is_expected.to have_http_status(200)
+      expect(json['items_count']).to eq(1)
+    end 
+    
     it "makes resource available on the list" do
       get url
       
