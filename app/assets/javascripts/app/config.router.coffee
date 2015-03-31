@@ -19,31 +19,71 @@ app.config ['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
   $urlRouterProvider.otherwise "/checklists"
 
   $stateProvider.state 'checklists',
-    title: 'Checklists',
     url: "/checklists",
-    templateUrl: "app/partials/checklist.list.html",
-    controller: 'checklistListCtrl',
-    resolve:
-      checklists: (ChecklistService) ->
-        return ChecklistService.fetch()
+    views:
+      'checklistList':
+        title: 'Checklists',
+        templateUrl: "app/partials/checklists.html",
+        controller: 'checklistListCtrl',
+        resolve:
+          checklists: (ChecklistService) ->
+            return ChecklistService.fetch()
+          templates: (TemplateService) ->
+            return TemplateService.fetch()
+      'checklistDetail':
+        templateUrl: "app/partials/homepage.html",
   .state 'checklists_show',
-    title: 'Checklist',
     url: "/checklists/:checklist_id",
-    templateUrl: "app/partials/checklist.detail.html",
-    controller: 'checklistShowCtrl',
-    resolve:
-      checklist: ($stateParams, ChecklistService) ->
-        return ChecklistService.fetch($stateParams.checklist_id)
-      checklist_items: ($stateParams, ItemService) ->
-        return ItemService.fetch($stateParams.checklist_id)
+    views:
+      'checklistList':
+        title: 'Checklists',
+        templateUrl: "app/partials/checklists.html",
+        controller: 'checklistListCtrl',
+        resolve:
+          checklists: (ChecklistService) ->
+            return ChecklistService.fetch()
+          templates: (TemplateService) ->
+            return TemplateService.fetch()
+      'checklistDetail':
+        title: 'Checklist',
+        templateUrl: "app/partials/items.html",
+        controller: 'checklistDetailCtrl',
+        resolve:
+          checklist: ($stateParams, ChecklistService) ->
+            return ChecklistService.get($stateParams.checklist_id)
+          checklist_items: ($stateParams, ItemService) ->
+            return ItemService.fetch($stateParams.checklist_id)
 
-  .state '/template',
-    title: 'Templates',
+  .state 'templates',
     url: "/templates",
-    templateUrl: "partials/templates.html",
-    controller: 'templatesCtrl',
-    resolve:
-      users: ['TemplatesService', (TemplatesService) ->
-        return TemplatesService.fetch()
-      ]
+    views:
+      'checklistList':
+        title: 'Template',
+        templateUrl: "app/partials/templates.html",
+        controller: 'templateListCtrl',
+        resolve:
+          templates: (TemplateService) ->
+            return TemplateService.fetch()
+      'checklistDetail':
+        templateUrl: "app/partials/homepage.html",
+  .state 'templates_show',
+    url: "/templates/:template_id",
+    views:
+      'checklistList':
+        title: 'Template',
+        templateUrl: "app/partials/templates.html",
+        controller: 'templateListCtrl',
+        resolve:
+          templates: (TemplateService) ->
+            return TemplateService.fetch()
+      'checklistDetail':
+        title: 'Template',
+        templateUrl: "app/partials/template_items.html",
+        controller: 'templateDetailCtrl',
+        resolve:
+          template: ($stateParams, TemplateService) ->
+            return TemplateService.get($stateParams.template_id)
+          template_items: ($stateParams, TemplateItemService) ->
+            return TemplateItemService.fetch($stateParams.template_id)
+
 ]

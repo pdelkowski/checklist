@@ -10,6 +10,7 @@
   <title>Checklists</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -22,12 +23,9 @@
   <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script> -->
   <%= javascript_include_tag 'application' %>
 </head>
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
+  <body>
+    <div class="container">
+		<div class="header clearfix">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -35,116 +33,37 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Checklists</a>
+                <a class="navbar-brand" href="/"><h3>Checkmate App</h3></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Lists</a>
+                      <a ui-sref="checklists">Lists</a>
                     </li>
                     <li>
-                        <a href="#">Templates</a>
+                        <a ui-sref="templates">Templates</a>
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
+		</div>
 
         <div class="row">
-
-            <div class="col-md-3">
-                <p class="lead">Submenu</p>
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">Add item</a>
-                </div>
+          <div class="col-sm-4">
+            <div ui-view="checklistList" class="panel panel-default checklists">
             </div>
+          </div>
 
-            <div class="col-md-9">
-
-              <div ui-view></div>
-
-
-              <!-- future comments, maybe ? -->
-              <!--
-                <div class="well">
-
-                    <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            Anonymous
-                            <span class="pull-right">10 days ago</span>
-                            <p>This product was great in terms of quality. I would definitely buy another!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            Anonymous
-                            <span class="pull-right">12 days ago</span>
-                            <p>I've alredy ordered another one!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            Anonymous
-                            <span class="pull-right">15 days ago</span>
-                            <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                        </div>
-                    </div>
-
-                </div>
-              -->
-
+          <div class="col-sm-8">
+            <div ui-view="checklistDetail" class="panel panel-default checklist-items">
             </div>
-
+          </div>
         </div>
 
-    </div>
-    <!-- /.container -->
-
-    <div class="container">
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Azbestowy Firewall Sp.z.o.o</p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <!-- /.container -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
+		<footer class="footer" id="footer">
+			<span class="copyright">Copyright © 2015 Snabel</span>
+			<span class="version">ver. 0.1.0</span>
+		</footer>
+	</div>
+  </body>
 </html>

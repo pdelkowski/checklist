@@ -1,0 +1,42 @@
+<section class="template">
+    <h1>Template</h1>
+    <small><a ui-sref="templates">Back</a></small>
+
+    <p>#ID: {{ template.id }}</p>
+    <p>Name: {{ template.name }}</p>
+    <p>Created: {{ template.created_at | date:'medium' }}</p>
+
+    <hr>
+
+    <div class="row">
+        <form ng-submit="formTemplateItemSubmit()">
+            <div class="form-group">
+              <div class="col-md-12">
+                <h3>Add new</h3>
+              </div>
+              <div class="col-md-7">
+                <input type="text" class="form-control" id="newTemplateItemName" placeholder="Type new template item name" ng-model="formTemplateItemDescription">
+              </div>
+              <div class="col-md-2">
+                <input type="submit" value="Save" class="btn btn-success">
+              </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+          <h3>Template items list</h3>
+        </div>
+        <div ng-repeat="templateItem in template_items">
+          <div class="col-md-7">
+            <a href="#" editable-text="templateItem.name" onbeforesave="templateItemUpdate(templateItem.id, $data)">{{ templateItem.name || 'empty' }}</a>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="templateItemDelete(templateItem.id, $index)" class="btn btn-danger btn-sm">Remove</button>
+            <br>
+            <br>
+          </div>
+        </div>
+    </div>
+</section>

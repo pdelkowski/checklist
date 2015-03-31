@@ -1,0 +1,19 @@
+input#newChecklistName {
+	border: 0;
+	outline: none;
+}
+
+#checklists {
+}
+
+#footer {
+	color: #ccc;
+}
+
+	#footer .copyright {
+		float: left;
+	}
+	
+	#footer .version {
+		float: right;
+	}
