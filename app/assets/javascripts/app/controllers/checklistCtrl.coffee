@@ -1,10 +1,30 @@
 'use strict'
 
-app.controller 'checklistListCtrl', ['$scope', 'ChecklistService', 'checklists', 'templates', ($scope, ChecklistService, checklists, templates) ->
+app.controller 'checklistListCtrl', ['$scope', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', ($scope, $filter, ChecklistService, ItemService, checklists, templates) ->
   $scope.checklists = checklists.data
   $scope.templates = templates.data
-  console.log $scope.templates
 
+  # orderBy = $filter('orderBy')
+  # $scope.checklists = orderBy($scope.checklists, '-id', false)
+
+
+  # # calculate completed, uncompleted and total count of items in list
+  # for checklist in $scope.checklists
+  #   counter = 0
+  #   ItemService.fetch(checklist.id).success (data, status) ->
+  #     count = 0
+  #     completed = 0
+  #     for item in data
+  #       count = count + 1
+  #       if item.completed_at
+  #         completed = completed + 1
+
+  #     $scope.checklists[counter]['count'] = count
+  #     $scope.checklists[counter]['completed'] = completed
+  #     $scope.checklists[counter]['uncompleted'] = count - completed
+  #     counter = counter + 1
+
+  # console.log $scope.checklists
   $scope.formChecklistName = ''
 
   # Add checklist

@@ -12,52 +12,97 @@
       app.value = $provide.value;
       $urlRouterProvider.otherwise("/checklists");
       return $stateProvider.state('checklists', {
-        title: 'Checklists',
         url: "/checklists",
-        templateUrl: "app/partials/checklist.list.html",
-        controller: 'checklistListCtrl',
-        resolve: {
-          checklists: function(ChecklistService) {
-            return ChecklistService.fetch();
+        views: {
+          'checklistList': {
+            title: 'Checklists',
+            templateUrl: "app/partials/checklists.html",
+            controller: 'checklistListCtrl',
+            resolve: {
+              checklists: function(ChecklistService) {
+                return ChecklistService.fetch();
+              },
+              templates: function(TemplateService) {
+                return TemplateService.fetch();
+              }
+            }
           },
-          templates: function(TemplateService) {
-            return TemplateService.fetch();
+          'checklistDetail': {
+            templateUrl: "app/partials/homepage.html"
           }
         }
       }).state('checklists_show', {
-        title: 'Checklist',
         url: "/checklists/:checklist_id",
-        templateUrl: "app/partials/checklist.detail.html",
-        controller: 'checklistDetailCtrl',
-        resolve: {
-          checklist: function($stateParams, ChecklistService) {
-            return ChecklistService.get($stateParams.checklist_id);
+        views: {
+          'checklistList': {
+            title: 'Checklists',
+            templateUrl: "app/partials/checklists.html",
+            controller: 'checklistListCtrl',
+            resolve: {
+              checklists: function(ChecklistService) {
+                return ChecklistService.fetch();
+              },
+              templates: function(TemplateService) {
+                return TemplateService.fetch();
+              }
+            }
           },
-          checklist_items: function($stateParams, ItemService) {
-            return ItemService.fetch($stateParams.checklist_id);
+          'checklistDetail': {
+            title: 'Checklist',
+            templateUrl: "app/partials/items.html",
+            controller: 'checklistDetailCtrl',
+            resolve: {
+              checklist: function($stateParams, ChecklistService) {
+                return ChecklistService.get($stateParams.checklist_id);
+              },
+              checklist_items: function($stateParams, ItemService) {
+                return ItemService.fetch($stateParams.checklist_id);
+              }
+            }
           }
         }
       }).state('templates', {
-        title: 'Template',
         url: "/templates",
-        templateUrl: "app/partials/template.list.html",
-        controller: 'templateListCtrl',
-        resolve: {
-          templates: function(TemplateService) {
-            return TemplateService.fetch();
+        views: {
+          'checklistList': {
+            title: 'Template',
+            templateUrl: "app/partials/templates.html",
+            controller: 'templateListCtrl',
+            resolve: {
+              templates: function(TemplateService) {
+                return TemplateService.fetch();
+              }
+            }
+          },
+          'checklistDetail': {
+            templateUrl: "app/partials/homepage.html"
           }
         }
       }).state('templates_show', {
-        title: 'Template',
         url: "/templates/:template_id",
-        templateUrl: "app/partials/template.detail.html",
-        controller: 'templateDetailCtrl',
-        resolve: {
-          template: function($stateParams, TemplateService) {
-            return TemplateService.get($stateParams.template_id);
+        views: {
+          'checklistList': {
+            title: 'Template',
+            templateUrl: "app/partials/templates.html",
+            controller: 'templateListCtrl',
+            resolve: {
+              templates: function(TemplateService) {
+                return TemplateService.fetch();
+              }
+            }
           },
-          template_items: function($stateParams, TemplateItemService) {
-            return TemplateItemService.fetch($stateParams.template_id);
+          'checklistDetail': {
+            title: 'Template',
+            templateUrl: "app/partials/template_items.html",
+            controller: 'templateDetailCtrl',
+            resolve: {
+              template: function($stateParams, TemplateService) {
+                return TemplateService.get($stateParams.template_id);
+              },
+              template_items: function($stateParams, TemplateItemService) {
+                return TemplateItemService.fetch($stateParams.template_id);
+              }
+            }
           }
         }
       });

@@ -2,10 +2,9 @@
 (function() {
   'use strict';
   app.controller('checklistListCtrl', [
-    '$scope', 'ChecklistService', 'checklists', 'templates', function($scope, ChecklistService, checklists, templates) {
+    '$scope', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', function($scope, $filter, ChecklistService, ItemService, checklists, templates) {
       $scope.checklists = checklists.data;
       $scope.templates = templates.data;
-      console.log($scope.templates);
       $scope.formChecklistName = '';
       $scope.formChecklistSubmit = function() {
         var $promise, formParams;

@@ -1,0 +1,47 @@
+<div class="panel-heading">{{ template.name }}</div>
+<div class="panel-body">
+    <div class="row">
+      <form ng-submit="formTemplateItemSubmit()">
+        <div class="form-group">
+          <div class="col-md-12">
+            <h3>Add new template item</h3>
+          </div>
+          <div class="col-md-7">
+            <input type="text" class="form-control" id="newItemName" placeholder="Type new template item name" ng-model="formTemplateItemDescription">
+          </div>
+          <div class="col-md-2">
+            <input type="submit" value="Save" class="btn btn-success">
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Template items list</h3>
+      </div>
+
+        <ul class="list-unstyled" ng-repeat="item in template_items">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <!--<input type="checkbox" ng-click="itemComplete($event, item.id)" ng-checked="{{ item.completed_at != null }}" />
+                {{ item.description || 'empty' }} -->
+                <li class="checkbox">
+                  <label>
+                    <input type="checkbox" disabled="disabled" /> {{ item.name || 'empty' }}
+                  </label>
+                </li>
+              </div>
+              <div class="col-md-6">
+                <i ng-click="templateItemDelete(item.id, $index)" class="fa fa-times"></i>
+                <i editable-text="item.name" onbeforesave="templateItemUpdate(item.id, $data)" class="fa fa-pencil-square-o"></i>
+                <br>
+              </div>
+            </div>
+          </div>
+        </ul>
+
+    </div>
+</div>

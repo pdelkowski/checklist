@@ -2,7 +2,7 @@
 (function() {
   'use strict';
   app.service('ChecklistService', [
-    '$http', 'API_URL', function($http, API_URL) {
+    '$http', 'API_URL', 'ItemService', function($http, API_URL, ItemService) {
       this.create = function(checklist) {
         return $http.post(API_URL + '/checklists', checklist);
       };
@@ -13,9 +13,30 @@
         };
         return $http.put(API_URL + 'checklists/' + checklist_id, params);
       };
-      this.search = function(query) {
-        return $http.get(API_URL + query);
+      this.count_items = function(checklist_id) {
+        var completed, count, i, item, items, len, result;
+        ItemService.fetch(checklist_id).then(function(value) {
+          var items;
+          return items = value;
+        });
+        items = data.data;
+        count = 0;
+        completed = 0;
+        for (i = 0, len = items.length; i < len; i++) {
+          item = items[i];
+          count = count + 1;
+          if (item.completed_at) {
+            completed = completed + 1;
+          }
+          result = {
+            count: count,
+            completed: completed,
+            uncompleted: count - completed
+          };
+        }
+        return console.log(result);
       };
+      this.count_completed = function(checklist_id) {};
       this.fetch = function() {
         return $http.get(API_URL + 'checklists').success(function(data, status, headers, config) {
           return data;

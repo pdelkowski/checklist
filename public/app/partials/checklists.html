@@ -1,7 +1,29 @@
-<section class="checklists" ng-controller="checklistListCtrl">
-    <h1>Checklists</h1>
+<div class="panel-heading">
+  Checklisty
+</div>
+<div class="panel-body row">
+  <form ng-submit="formChecklistSubmit()">
+    <div class="col-md-12">
+      <input type="text" class="form-control" id="newChecklistName" placeholder="Type new checklist name" ng-model="formChecklistName">
+      <br>
+    </div>
+    <div class="col-md-12">
+      <select ng-model="formChecklistTemplate" ng-options="opt as opt.name for opt in templates" class="form-control">
+        <option value="" selected disabled>Pick a template</option>
+      </select>
+      <br>
+    </div>
+    <div class="col-md-12 text-center">
+      <input type="submit" value="Save" class="btn btn-success">
+    </div>
+  </form>
+</div>
 
-    <ul ng-repeat="checklist in checklists">
-      <li>{{ checklist.id }}: <a ui-sref="checklists_show({id: {{checklist.id}}})">{{ checklist.name}}</a></li>
-    </ul>
-</section>
+<div class="list-group" id="checklists" ng-repeat="checklist in checklists">
+  <a ui-sref="checklists_show({checklist_id: {{checklist.id}}})" class="list-group-item" style="">
+    <!-- <span class="badge">{{checklist.completed}}/{{checklist.count}}</span> -->
+    <!--    <i editable-text="checklist.name" onbeforesave="checklistUpdate(checklist.id, $data)" class="fa fa-pencil-square-o"></i>-->
+    <i ng-click="checklistDelete(checklist.id, $index)" class="fa fa-times"></i>
+    <span ui-sref="checklists_show({checklist_id: {{checklist.id}}})">{{ checklist.name}}</span>
+  </a>
+</div>
