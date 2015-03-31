@@ -20,10 +20,8 @@
 </div>
 
 <div class="list-group" id="checklists" ng-repeat="checklist in checklists">
-  <a ui-sref="checklists_show({checklist_id: {{checklist.id}}})" class="list-group-item" style="">
-    <!-- <span class="badge">{{checklist.completed}}/{{checklist.count}}</span> -->
-    <!--    <i editable-text="checklist.name" onbeforesave="checklistUpdate(checklist.id, $data)" class="fa fa-pencil-square-o"></i>-->
-    <i ng-click="checklistDelete(checklist.id, $index)" class="fa fa-times"></i>
+  <a ui-sref="checklists_show({checklist_id: {{checklist.id}}})" class="list-group-item {{ checklist.active ? 'active' : '' }}" style="">
+    <span class="badge">{{checklist.completed_count}}/{{checklist.items_count}}</span>
     <span ui-sref="checklists_show({checklist_id: {{checklist.id}}})">{{ checklist.name}}</span>
   </a>
 </div>

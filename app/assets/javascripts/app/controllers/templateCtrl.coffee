@@ -1,7 +1,14 @@
 'use strict'
 
-app.controller 'templateListCtrl', ['$scope', 'TemplateService', 'templates', ($scope, TemplateService, templates) ->
+app.controller 'templateListCtrl', ['$scope', '$stateParams', 'TemplateService', 'templates', ($scope, $stateParams, TemplateService, templates) ->
   $scope.templates = templates.data
+  #
+  # Set the active checklist
+  for key, template of $scope.templates
+    if parseInt(template.id) == parseInt($stateParams.template_id)
+      $scope.templates[key]['active'] = true
+    else
+      $scope.templates[key]['active'] = false
 
   $scope.formTemplateName = ''
 
@@ -19,23 +26,25 @@ app.controller 'templateListCtrl', ['$scope', 'TemplateService', 'templates', ($
       $scope.formTemplateName = null
       console.log 'Template created'
 
+]
+
+app.controller 'templateDetailCtrl', ['$scope', '$stateParams', '$state', 'TemplateService', 'TemplateItemService', 'template', 'template_items', ($scope, $stateParams, $state, TemplateService, TemplateItemService, template, template_items) ->
+  $scope.template = template.data
+  $scope.template_items = template_items.data
+
   # Update template
   $scope.templateUpdate = (template_id, name) ->
     $promise = TemplateService.update(template_id, name)
     $promise.success (data, status) ->
       console.log 'template successfully updated'
-  #
+      $state.transitionTo($state.current, $stateParams, {reload: true })
+
   # Delete template
   $scope.templateDelete = (template_id, index) ->
     $promise = TemplateService.delete(template_id)
     $promise.success (data, status) ->
-      $scope.templates.splice(index, 1)
       console.log 'Template successfully removed'
-]
-
-app.controller 'templateDetailCtrl', ['$scope', '$stateParams', 'TemplateItemService', 'template', 'template_items', ($scope, $stateParams, TemplateItemService, template, template_items) ->
-  $scope.template = template.data
-  $scope.template_items = template_items.data
+      $state.transitionTo("templates", $stateParams, {reload: true })
 
   $scope.formTemplateItemDescription = ''
 

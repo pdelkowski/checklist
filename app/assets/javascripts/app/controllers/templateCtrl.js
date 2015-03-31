@@ -2,10 +2,20 @@
 (function() {
   'use strict';
   app.controller('templateListCtrl', [
-    '$scope', 'TemplateService', 'templates', function($scope, TemplateService, templates) {
+    '$scope', '$stateParams', 'TemplateService', 'templates', function($scope, $stateParams, TemplateService, templates) {
+      var key, ref, template;
       $scope.templates = templates.data;
+      ref = $scope.templates;
+      for (key in ref) {
+        template = ref[key];
+        if (parseInt(template.id) === parseInt($stateParams.template_id)) {
+          $scope.templates[key]['active'] = true;
+        } else {
+          $scope.templates[key]['active'] = false;
+        }
+      }
       $scope.formTemplateName = '';
-      $scope.formTemplateSubmit = function() {
+      return $scope.formTemplateSubmit = function() {
         var $promise, formParams;
         formParams = {
           name: $scope.formTemplateName.trim()
@@ -20,28 +30,33 @@
           return console.log('Template created');
         });
       };
-      $scope.templateUpdate = function(template_id, name) {
-        var $promise;
-        $promise = TemplateService.update(template_id, name);
-        return $promise.success(function(data, status) {
-          return console.log('template successfully updated');
-        });
-      };
-      return $scope.templateDelete = function(template_id, index) {
-        var $promise;
-        $promise = TemplateService["delete"](template_id);
-        return $promise.success(function(data, status) {
-          $scope.templates.splice(index, 1);
-          return console.log('Template successfully removed');
-        });
-      };
     }
   ]);
 
   app.controller('templateDetailCtrl', [
-    '$scope', '$stateParams', 'TemplateItemService', 'template', 'template_items', function($scope, $stateParams, TemplateItemService, template, template_items) {
+    '$scope', '$stateParams', '$state', 'TemplateService', 'TemplateItemService', 'template', 'template_items', function($scope, $stateParams, $state, TemplateService, TemplateItemService, template, template_items) {
       $scope.template = template.data;
       $scope.template_items = template_items.data;
+      $scope.templateUpdate = function(template_id, name) {
+        var $promise;
+        $promise = TemplateService.update(template_id, name);
+        return $promise.success(function(data, status) {
+          console.log('template successfully updated');
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true
+          });
+        });
+      };
+      $scope.templateDelete = function(template_id, index) {
+        var $promise;
+        $promise = TemplateService["delete"](template_id);
+        return $promise.success(function(data, status) {
+          console.log('Template successfully removed');
+          return $state.transitionTo("templates", $stateParams, {
+            reload: true
+          });
+        });
+      };
       $scope.formTemplateItemDescription = '';
       $scope.formTemplateItemSubmit = function() {
         var $promise, formParams;

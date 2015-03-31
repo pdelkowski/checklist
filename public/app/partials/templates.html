@@ -14,9 +14,9 @@
 </div>
 
 <div class="list-group" id="checklists" ng-repeat="template in templates">
-  <a ui-sref="templates_show({template_id: {{template.id}}})" class="list-group-item" style="">
+  <a ui-sref="templates_show({template_id: {{template.id}}})" class="list-group-item {{ template.active ? 'active' : '' }}" style="">
     <!--    <i editable-text="template.name" onbeforesave="templateUpdate(template.id, $data)" class="fa fa-pencil-square-o"></i>-->
-    <i ng-click="templateDelete(template.id, $index)" class="fa fa-times"></i>
+    <!-- <i ng-click="templateDelete(template.id, $index)" class="fa fa-times"></i> -->
     <span ui-sref="templates_show({template_id: {{template.id}}})">{{ template.name }}</span>
   </a>
 </div>

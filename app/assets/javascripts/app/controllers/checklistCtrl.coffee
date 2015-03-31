@@ -1,28 +1,15 @@
 'use strict'
 
-app.controller 'checklistListCtrl', ['$scope', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', ($scope, $filter, ChecklistService, ItemService, checklists, templates) ->
+app.controller 'checklistListCtrl', ['$scope', '$stateParams', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', ($scope, $stateParams, $filter, ChecklistService, ItemService, checklists, templates) ->
   $scope.checklists = checklists.data
   $scope.templates = templates.data
 
-  # orderBy = $filter('orderBy')
-  # $scope.checklists = orderBy($scope.checklists, '-id', false)
-
-
-  # # calculate completed, uncompleted and total count of items in list
-  # for checklist in $scope.checklists
-  #   counter = 0
-  #   ItemService.fetch(checklist.id).success (data, status) ->
-  #     count = 0
-  #     completed = 0
-  #     for item in data
-  #       count = count + 1
-  #       if item.completed_at
-  #         completed = completed + 1
-
-  #     $scope.checklists[counter]['count'] = count
-  #     $scope.checklists[counter]['completed'] = completed
-  #     $scope.checklists[counter]['uncompleted'] = count - completed
-  #     counter = counter + 1
+  # Set the active checklist
+  for key, checklist of $scope.checklists
+    if parseInt(checklist.id) == parseInt($stateParams.checklist_id)
+      $scope.checklists[key]['active'] = true
+    else
+      $scope.checklists[key]['active'] = false
 
   # console.log $scope.checklists
   $scope.formChecklistName = ''
@@ -43,24 +30,26 @@ app.controller 'checklistListCtrl', ['$scope', '$filter', 'ChecklistService', 'I
       $scope.checklists.unshift(data)
       $scope.formChecklistName = null
       console.log 'Checklist created'
+]
+
+app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', '$location', '$state', 'ChecklistService', 'ItemService', 'checklist', 'checklist_items', ($scope, $stateParams, $location, $state, ChecklistService, ItemService, checklist, checklist_items) ->
+  $scope.checklist = checklist.data
+  $scope.checklist_items = checklist_items.data
 
   # Update checklist
   $scope.checklistUpdate = (checklist_id, name) ->
     $promise = ChecklistService.update(checklist_id, name)
     $promise.success (data, status) ->
+      $state.transitionTo($state.current, $stateParams, {reload: true })
       console.log 'Checklist successfully updated'
-  #
-  # Delete item
-  $scope.checklistDelete = (checklist_id, index) ->
+
+  # Delete checklist
+  $scope.checklistDelete = (checklist_id) ->
     $promise = ChecklistService.delete(checklist_id)
     $promise.success (data, status) ->
-      $scope.checklists.splice(index, 1)
       console.log 'Checklist successfully removed'
-]
-
-app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', 'ItemService', 'checklist', 'checklist_items', ($scope, $stateParams, ItemService, checklist, checklist_items) ->
-  $scope.checklist = checklist.data
-  $scope.checklist_items = checklist_items.data
+      console.log $state.current
+      $state.transitionTo("checklists", $stateParams, {reload: true })
 
   $scope.formItemDescription = ''
 
@@ -75,8 +64,7 @@ app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', 'ItemService', 
 
     $promise = ItemService.save($stateParams.checklist_id, formParams)
     $promise.success (data, status) ->
-      $scope.checklist_items.unshift(data)
-      $scope.formItemDescription = null
+      $state.transitionTo($state.current, $stateParams, {reload: true })
 
   # Update item
   $scope.itemUpdate = (item_id, description) ->
@@ -88,17 +76,18 @@ app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', 'ItemService', 
   $scope.itemDelete = (item_id, index) ->
     $promise = ItemService.delete(item_id)
     $promise.success (data, status) ->
-      $scope.checklist_items.splice(index, 1)
+      $state.transitionTo($state.current, $stateParams, {reload: true })
       console.log 'Item successfully removed'
 
   # Complete/Uncomplete item
   $scope.itemComplete = (e, item_id) ->
-    if(e.toElement.checked)
+    if(e.target.checked)
       $promise = ItemService.complete(item_id)
       $promise.success (data, status) ->
-        console.log 'Successfully completed item'
+        console.log 'Item successfully completed'
     else
       $promise = ItemService.uncomplete(item_id)
       $promise.success (data, status) ->
         console.log 'Successfully uncompleted item'
+    $state.transitionTo($state.current, $stateParams, {reload: true })
 ]

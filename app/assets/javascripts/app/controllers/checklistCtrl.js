@@ -2,11 +2,21 @@
 (function() {
   'use strict';
   app.controller('checklistListCtrl', [
-    '$scope', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', function($scope, $filter, ChecklistService, ItemService, checklists, templates) {
+    '$scope', '$stateParams', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', function($scope, $stateParams, $filter, ChecklistService, ItemService, checklists, templates) {
+      var checklist, key, ref;
       $scope.checklists = checklists.data;
       $scope.templates = templates.data;
+      ref = $scope.checklists;
+      for (key in ref) {
+        checklist = ref[key];
+        if (parseInt(checklist.id) === parseInt($stateParams.checklist_id)) {
+          $scope.checklists[key]['active'] = true;
+        } else {
+          $scope.checklists[key]['active'] = false;
+        }
+      }
       $scope.formChecklistName = '';
-      $scope.formChecklistSubmit = function() {
+      return $scope.formChecklistSubmit = function() {
         var $promise, formParams;
         formParams = {
           name: $scope.formChecklistName.trim()
@@ -24,28 +34,34 @@
           return console.log('Checklist created');
         });
       };
-      $scope.checklistUpdate = function(checklist_id, name) {
-        var $promise;
-        $promise = ChecklistService.update(checklist_id, name);
-        return $promise.success(function(data, status) {
-          return console.log('Checklist successfully updated');
-        });
-      };
-      return $scope.checklistDelete = function(checklist_id, index) {
-        var $promise;
-        $promise = ChecklistService["delete"](checklist_id);
-        return $promise.success(function(data, status) {
-          $scope.checklists.splice(index, 1);
-          return console.log('Checklist successfully removed');
-        });
-      };
     }
   ]);
 
   app.controller('checklistDetailCtrl', [
-    '$scope', '$stateParams', 'ItemService', 'checklist', 'checklist_items', function($scope, $stateParams, ItemService, checklist, checklist_items) {
+    '$scope', '$stateParams', '$location', '$state', 'ChecklistService', 'ItemService', 'checklist', 'checklist_items', function($scope, $stateParams, $location, $state, ChecklistService, ItemService, checklist, checklist_items) {
       $scope.checklist = checklist.data;
       $scope.checklist_items = checklist_items.data;
+      $scope.checklistUpdate = function(checklist_id, name) {
+        var $promise;
+        $promise = ChecklistService.update(checklist_id, name);
+        return $promise.success(function(data, status) {
+          $state.transitionTo($state.current, $stateParams, {
+            reload: true
+          });
+          return console.log('Checklist successfully updated');
+        });
+      };
+      $scope.checklistDelete = function(checklist_id) {
+        var $promise;
+        $promise = ChecklistService["delete"](checklist_id);
+        return $promise.success(function(data, status) {
+          console.log('Checklist successfully removed');
+          console.log($state.current);
+          return $state.transitionTo("checklists", $stateParams, {
+            reload: true
+          });
+        });
+      };
       $scope.formItemDescription = '';
       $scope.formItemSubmit = function() {
         var $promise, formParams;
@@ -58,8 +74,9 @@
         }
         $promise = ItemService.save($stateParams.checklist_id, formParams);
         return $promise.success(function(data, status) {
-          $scope.checklist_items.unshift(data);
-          return $scope.formItemDescription = null;
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true
+          });
         });
       };
       $scope.itemUpdate = function(item_id, description) {
@@ -73,23 +90,28 @@
         var $promise;
         $promise = ItemService["delete"](item_id);
         return $promise.success(function(data, status) {
-          $scope.checklist_items.splice(index, 1);
+          $state.transitionTo($state.current, $stateParams, {
+            reload: true
+          });
           return console.log('Item successfully removed');
         });
       };
       return $scope.itemComplete = function(e, item_id) {
         var $promise;
-        if (e.toElement.checked) {
+        if (e.target.checked) {
           $promise = ItemService.complete(item_id);
-          return $promise.success(function(data, status) {
-            return console.log('Successfully completed item');
+          $promise.success(function(data, status) {
+            return console.log('Item successfully completed');
           });
         } else {
           $promise = ItemService.uncomplete(item_id);
-          return $promise.success(function(data, status) {
+          $promise.success(function(data, status) {
             return console.log('Successfully uncompleted item');
           });
         }
+        return $state.transitionTo($state.current, $stateParams, {
+          reload: true
+        });
       };
     }
   ]);

@@ -22,6 +22,7 @@
 //= require app/main
 //= require app/config.constant
 //= require app/config.router
+//= require app/directives
 //
 // Services
 //= require_tree ./app/services
