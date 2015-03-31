@@ -1,4 +1,4 @@
-<div class="panel-heading"><i editable-text="template.name" onbeforesave="templateUpdate(template.id, $data)" class="fa fa-pencil-square-o"></i> {{ template.name }}<a href="#"><i ng-click="templateDelete(template.id)" ng-confirm-click="Are you sure you want to remove this template and all of its items ?" class="fa fa-times pull-right"></i></a></div>
+<div class="panel-heading"><i editable-text="template.name" onbeforesave="templateUpdate(template.id, $data)" class="fa fa-pencil-square-o"></i> {{ template.name }}<a href="javascript:void()"><i ng-click="templateDelete(template.id)" ng-confirm-click="Are you sure you want to remove this template and all of its items ?" class="fa fa-times pull-right"></i></a></div>
 <div class="panel-body">
     <div class="row">
       <form ng-submit="formTemplateItemSubmit()">
