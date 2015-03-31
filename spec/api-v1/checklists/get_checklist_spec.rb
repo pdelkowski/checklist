@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Get the checklist", type: :request do
-  let(:checklist) { FactoryGirl.create(:checklist) }
+  let(:checklist) { create(:checklist) }
   let(:path) { "/api/v1/checklists/#{checklist.id}" }
 
   context "when checklist exists" do

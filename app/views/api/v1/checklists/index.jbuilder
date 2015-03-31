@@ -1,1 +1,1 @@
-json.array! @checklists, :id, :name
+json.array! @checklists, :id, :name, :items_count, :completed_count

@@ -4,6 +4,7 @@
     "id": { "type": "integer" },
     "name": { "type": "string" },
 	"items_count": { "type": "integer" },
+	"completed_count": { "type":"integer" },
     "completed_at": { "type": ["string", "null"], "format": "date-time" },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" }

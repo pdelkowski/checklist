@@ -21,6 +21,7 @@ describe "Creating the checklist", type: :request do
       expect(json['name']).to eq(post_attributes[:name])
       expect(json['completed_at']).to eq(nil)
       expect(json['items_count']).to eq(1)
+      expect(json['completed_count']).to eq(0)
     end
     
     context "when template is specified" do

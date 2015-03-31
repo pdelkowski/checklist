@@ -1,46 +1,43 @@
 require 'rails_helper'
 
-describe "Mark item as completed", type: :request do
-  let(:item) { FactoryGirl.create(:item) }
-  let(:item_completed) { FactoryGirl.create(:item_completed) }
-
-  let(:path) { "/api/v1/items/#{item.id}/complete" }
-  let(:path_404) { "/api/v1/items/0/complete" }
-
-  context "when item is not completed" do
-    it "returns item resource" do
-      post path
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('item')
-      expect(json['completed_at']).to_not be_nil
-    end
+describe "POST /api/v1/items/:id/complete", type: :request do
+  subject { response }
+  
+  let(:checklist) { create(:checklist) }
+  let(:item) { create(:item, checklist: checklist) }
+  let(:url) { "/api/v1/items/#{item.id}/complete" }
+  
+  before :each do
+    post url
   end
-
+  
+  it "completes item" do
+    is_expected.to have_http_status(200)
+    is_expected.to match_response_schema('item')
+    expect(json['completed_at']).to_not be_nil
+  end
+  
+  it "increments completed counter cache in checklist" do
+    get "/api/v1/checklists/#{checklist.id}"
+    expect(json['completed_count']).to eq(checklist.completed_count+1)
+  end
+  
   context "when item is completed already" do
-    let(:path) { "/api/v1/items/#{item_completed.id}/complete" }
-
-    it "returns unchanged item resource" do
-      post path
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('item')
-
-      # Make sure time is compared in the same format
-      expected_time = Time.parse(json['completed_at']).strftime('%Y-%m-%dT%l:%M:%S%z')
-      item_time = item_completed.completed_at.strftime('%Y-%m-%dT%l:%M:%S%z')
-      expect(expected_time).to eq(item_time)
+    let(:item) { create(:item_completed) }
+    it "it is not affected" do
+      is_expected.to have_http_status(200)
+      is_expected.to match_response_schema('item')
+      
+      # Make sure to compare in same formats
+      response_time = Time.parse(json['completed_at']).strftime('%Y-%m-%dT%l:%M:%S%z')
+      expected_time = item.completed_at.strftime('%Y-%m-%dT%l:%M:%S%z')
+      
+      expect(response_time).to eq(expected_time)
     end
   end
-
+  
   context "when item does not exists" do
-    it "returns response with resource_not_found error and status code 404" do
-      post path_404
-
-      # TODO: DRY - resource_not_found error
-      expect(response).to have_http_status(404)
-      expect(response).to match_response_schema('error')
-      expect(json['error_code']).to eq('resource_not_found')
-    end
+    let(:item) { build(:item, id: 0) }
+    include_examples "resource_not_found error"
   end
 end
