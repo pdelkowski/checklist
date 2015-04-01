@@ -57,6 +57,9 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.3.0)
@@ -177,6 +180,7 @@ PLATFORMS
 DEPENDENCIES
   apipie-rails
   coffee-rails (~> 4.1.0)
+  dotenv-rails
   factory_girl_rails
   faker (~> 1.4.3)
   jbuilder (~> 2.0)
