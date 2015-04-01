@@ -31,11 +31,13 @@ describe "Creating the checklist", type: :request do
         expect(json['items_count']).to eq(template_items.count)
       end
     
-      # it "create items based on template" do
-      #   is_expected.to have_http_status(200)
-      #   is_expected.to match_response_schema('items_collection')
-      #   expect(json.count).to eq(template_items.count)
-      # end
+      it "creates items based on template" do
+        get "/api/v1/checklists/#{json['id']}/items"
+
+        is_expected.to have_http_status(200)
+        is_expected.to match_response_schema('items_collection')
+        expect(json.count).to eq(template_items.count)
+      end
     end
   end
   
