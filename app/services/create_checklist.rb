@@ -13,7 +13,7 @@ class CreateChecklist < Service
     template_id = attributes.delete(:from_template)
 
     checklist = Checklist.new(attributes)
-    checklist.items = get_items_from_template(template_id)
+    checklist.items = get_items_from_template(template_id) unless template_id.nil?
     checklist.save!
     checklist
   end

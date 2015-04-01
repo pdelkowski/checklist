@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :checklist do
-    name "My checklist"
+    name { Faker::Lorem.sentence }
   end
   
   factory :checklist_attributes, class: Hash do

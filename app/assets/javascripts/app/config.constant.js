@@ -8,7 +8,7 @@
     'mobile': 480
   });
 
-  app.constant('API_URL', 'http://localhost:3000/api/v1/');
+  app.constant('API_URL', 'http://192.168.59.103:4000/api/v1/');
 
   app.constant('JS_REQUIRES', {
     scripts: {

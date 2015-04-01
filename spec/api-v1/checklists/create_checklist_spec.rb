@@ -20,7 +20,7 @@ describe "Creating the checklist", type: :request do
       expect(json['id']).to_not be_nil
       expect(json['name']).to eq(post_attributes[:name])
       expect(json['completed_at']).to eq(nil)
-      expect(json['items_count']).to eq(1)
+      expect(json['items_count']).to eq(0)
       expect(json['completed_count']).to eq(0)
     end
     
