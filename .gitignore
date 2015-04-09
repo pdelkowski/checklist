@@ -18,5 +18,6 @@
 # Ignore dotenv file
 .env
 
-# Ignore .js files in dev mode
+# Ignore .js files in dev mode, I could just put .gitignore file in that dir but ... life's too short
 /app/assets/javascripts/app/*.js
+/app/assets/javascripts/app/*/*.js

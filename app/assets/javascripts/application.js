@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //
 //= require vendor/angular-ui-router.min
+//= require vendor/angular-ui-bootstrap-tpls
 //= require vendor/ocLazyLoad.min
 //= require vendor/xeditable.min
 //
@@ -29,3 +30,4 @@
 //
 // Controller
 //= require_tree ./app/controllers
+

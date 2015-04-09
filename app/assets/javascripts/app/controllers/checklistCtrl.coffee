@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller 'checklistListCtrl', ['$scope', '$stateParams', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', ($scope, $stateParams, $filter, ChecklistService, ItemService, checklists, templates) ->
+app.controller 'checklistListCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', 'ChecklistService', 'ItemService', 'checklists', 'templates', ($scope, $rootScope, $stateParams, $filter, ChecklistService, ItemService, checklists, templates) ->
   $scope.checklists = checklists.data
   $scope.templates = templates.data
 
@@ -29,10 +29,12 @@ app.controller 'checklistListCtrl', ['$scope', '$stateParams', '$filter', 'Check
     $promise.success (data, status) ->
       $scope.checklists.unshift(data)
       $scope.formChecklistName = null
-      console.log 'Checklist created'
+      $rootScope.addAlert('success', 'Checklist created')
+    $promise.error (data) ->
+      $rootScope.addAlert('danger', data.message)
 ]
 
-app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', '$location', '$state', 'ChecklistService', 'ItemService', 'checklist', 'checklist_items', ($scope, $stateParams, $location, $state, ChecklistService, ItemService, checklist, checklist_items) ->
+app.controller 'checklistDetailCtrl', ['$scope', '$rootScope', '$stateParams', '$location', '$state', '$modal', 'ChecklistService', 'ItemService', 'checklist', 'checklist_items', ($scope, $rootScope, $stateParams, $location, $state, $modal, ChecklistService, ItemService, checklist, checklist_items) ->
   $scope.checklist = checklist.data
   $scope.checklist_items = checklist_items.data
 
@@ -41,15 +43,27 @@ app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', '$location', '$
     $promise = ChecklistService.update(checklist_id, name)
     $promise.success (data, status) ->
       $state.transitionTo($state.current, $stateParams, {reload: true })
-      console.log 'Checklist successfully updated'
+      $rootScope.addAlert('success', 'Checklist successfully updated')
+    $promise.error (data) ->
+      $rootScope.addAlert('danger', data.message)
+
+  # Modal window for checklist update
+  $scope.modalChecklistEdit = () ->
+    modalInstance = $modal.open(
+      templateUrl: 'checklistEditModal.html'
+      controller: 'modalChecklistUpdateCtrl'
+      resolve: checklist: ->
+        $scope.checklist
+    )
 
   # Delete checklist
   $scope.checklistDelete = (checklist_id) ->
     $promise = ChecklistService.delete(checklist_id)
     $promise.success (data, status) ->
-      console.log 'Checklist successfully removed'
-      console.log $state.current
+      $rootScope.addAlert('success', 'Checklist successfully removed')
       $state.transitionTo("checklists", $stateParams, {reload: true })
+    $promise.error (data) ->
+      $rootScope.addAlert('danger', data.message)
 
   $scope.formItemDescription = ''
 
@@ -65,29 +79,43 @@ app.controller 'checklistDetailCtrl', ['$scope', '$stateParams', '$location', '$
     $promise = ItemService.save($stateParams.checklist_id, formParams)
     $promise.success (data, status) ->
       $state.transitionTo($state.current, $stateParams, {reload: true })
+      $rootScope.addAlert('success', 'Item successfully added')
+    $promise.error (data) ->
+      $rootScope.addAlert('danger', data.message)
 
-  # Update item
-  $scope.itemUpdate = (item_id, description) ->
-    $promise = ItemService.update(item_id, description)
-    $promise.success (data, status) ->
-      console.log 'Item successfully updated'
+  # Modal window for update
+  $scope.modalItemEdit = (index) ->
+    console.log 'in modal'
+    modalInstance = $modal.open(
+      templateUrl: 'myModalContent.html'
+      controller: 'modalInstanceCtrl'
+      resolve: item: ->
+        $scope.checklist_items[index]
+    )
 
   # Delete item
   $scope.itemDelete = (item_id, index) ->
     $promise = ItemService.delete(item_id)
     $promise.success (data, status) ->
       $state.transitionTo($state.current, $stateParams, {reload: true })
-      console.log 'Item successfully removed'
+      $rootScope.addAlert('success', 'Item successfully removed')
+    $promise.error (data) ->
+      $rootScope.addAlert('danger', data.message)
 
   # Complete/Uncomplete item
   $scope.itemComplete = (e, item_id) ->
     if(e.target.checked)
       $promise = ItemService.complete(item_id)
       $promise.success (data, status) ->
-        console.log 'Item successfully completed'
+        $rootScope.addAlert('success', 'Item successfully completed')
+      $promise.error (data) ->
+        $rootScope.addAlert('danger', data.message)
     else
       $promise = ItemService.uncomplete(item_id)
       $promise.success (data, status) ->
-        console.log 'Successfully uncompleted item'
+        $rootScope.addAlert('success', 'Successfully uncompleted item')
+      $promise.error (data) ->
+        $rootScope.addAlert('danger', data.message)
+
     $state.transitionTo($state.current, $stateParams, {reload: true })
 ]
