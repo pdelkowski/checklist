@@ -17,3 +17,6 @@
 
 # Ignore dotenv file
 .env
+
+# Ignore .js files in dev mode
+/app/assets/javascripts/app/*.js
